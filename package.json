@@ -2,7 +2,10 @@
   "name": "init",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "nx run-many --target=dev",
+    "build": "nx run-many --target=build"
+  },
   "private": true,
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",
