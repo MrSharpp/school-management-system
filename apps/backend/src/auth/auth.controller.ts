@@ -1,26 +1,27 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
-import { SignInCredentialsDto } from './dtos/signin-credentials';
 import { JwtService } from 'src/shared/jwt.service';
-import { UsersService } from 'src/users/users.service';
+import { AuthService } from './auth.service';
+import { SignInCredentialsDto } from './dtos/signin-credentials';
 
 @Controller()
 export class AuthController {
   constructor(
-    private readonly userService: UsersService,
+    private authServie: AuthService,
     private readonly jwtService: JwtService
   ) {}
 
   @HttpCode(200)
   @Post('/login')
   async login(@Body() signinCredential: SignInCredentialsDto): Promise<string> {
-    const user = await this.userService.getUser({
+    const user = await this.authServie.login({
       email: signinCredential.email,
     });
 
@@ -28,5 +29,11 @@ export class AuthController {
     if (!user || user.password != signinCredential.password)
       throw new UnauthorizedException('Invalid Credentials');
     return this.jwtService.encode(user);
+  }
+
+  @HttpCode(200)
+  @Get('/dummy')
+  async dummy() {
+    return 'hell';
   }
 }

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
