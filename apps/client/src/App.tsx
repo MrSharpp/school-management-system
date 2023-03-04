@@ -1,21 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observable } from '@legendapp/state';
+import { useObserveEffect } from '@legendapp/state/react';
+import { Button, Card, Text } from '@tremor/react';
 
-const count = observable(0);
+const state = observable({ count: 0 });
+
+function increment() {
+  state.count.set(prev => ++prev);
+}
 
 function App() {
-  const [, s] = useState(0);
-
   return (
     <div className="App">
-      hello world
-      <button
-        onClick={() => {
-          count.set(count.peek() + 1);
-        }}
-      >
-        increment {count}
-      </button>
+      <Card>
+        <Text>hello world {state.count} </Text>
+
+        <Button
+          marginTop={'mt-3'}
+          onClick={increment}
+        >
+          increment {state.count}
+        </Button>
+      </Card>
     </div>
   );
 }
