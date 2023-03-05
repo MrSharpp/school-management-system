@@ -11,11 +11,20 @@ import Container from '@mui/material/Container';
 import { Button } from 'ui';
 
 const Login = () =>
-  <Container component="main" maxWidth="md">
+  <Container
+    component="main"
+    maxWidth="md"
+    style={{ borderRadius: '8px', borderColor: '#fff' }}
+  >
     <Grid
       container
       component="main"
-      sx={{ height: '50%', border: 1, borderRadius: 2, marginTop: 20 }}
+      sx={{
+        height: '50%',
+        borderRadius: 2,
+        marginTop: 20,
+        boxShadow: '0 0 10px rgb(0 0 0 / 10%)',
+      }}
     >
       <CssBaseline />
       <Grid
@@ -24,6 +33,8 @@ const Login = () =>
         sm={4}
         md={7}
         sx={{
+          borderRadius: '8px 20px 20px 8px',
+
           backgroundImage: 'url(https://source.unsplash.com/random)',
           backgroundRepeat: 'no-repeat',
           backgroundColor: t =>

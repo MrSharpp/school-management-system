@@ -3,7 +3,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 function App() {
-  const theme = createTheme();
+  const theme = createTheme({
+    palette: {
+      background: {
+        default: '#f7f7fa',
+      },
+    },
+  });
   return (
     <div className="bg-grey-3">
       <ThemeProvider theme={theme}>
