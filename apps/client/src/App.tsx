@@ -1,6 +1,6 @@
 import Login from '@pages/auth/Login';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 function App() {
   const theme = createTheme();
