@@ -43,11 +43,10 @@ const CustomButton = styled(ButtonUnstyled)`
   }
 `;
 
-export default function UnstyledButtonsSimple() {
+export default function UnstyledButtonsSimple({children, ...props}) {
   return (
     <>
-      <CustomButton>Button</CustomButton>
-      <CustomButton disabled>Disabled</CustomButton>
+      <CustomButton  {...props}>{children}</CustomButton>
     </>
   );
 }
