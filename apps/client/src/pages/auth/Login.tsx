@@ -1,4 +1,3 @@
-import { LoginComponent } from 'ui';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 
