@@ -11,6 +11,7 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { JwtService } from 'src/shared/jwt.service';
 import { AuthService } from './auth.service';
 import { SignInCredentialsDto } from './dtos/signin-credentials.DTO';
+import * as bcrypt from 'bcrypt';
 
 @ApiTags('Authentication')
 @Controller()
@@ -25,15 +26,17 @@ export class AuthController {
   async login(
     @Body() signinCredential: SignInCredentialsDto
   ): Promise<{ token: string }> {
-    console.log(signinCredential);
-
     const user = await this.authServie.login({
       email: signinCredential.email,
     });
 
     // validation for password
-    if (!user || user.password != signinCredential.password)
-      throw new UnauthorizedException('Invalid Credentials');
+    const answe = await bcrypt.compare(
+      signinCredential.password,
+      user.password
+    );
+
+    if (!user || !answe) throw new UnauthorizedException('Invalid Credentials');
     return { token: this.jwtService.encode(user) };
   }
 }

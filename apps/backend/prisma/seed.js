@@ -13,7 +13,7 @@ async function main() {
     create: {
       email: 'admin@scms.com',
       name: 'Super Admin',
-      password: 'meriyara',
+      password: '$2b$10$5Sji/xxFv.0s61DvgBHI4OhOqUkVZu8Mitq8CUeKOsFeMPUidCYoC',
     },
   });
 
