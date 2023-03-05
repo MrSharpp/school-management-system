@@ -2,9 +2,14 @@
   "name": "ui",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/ui.es.js",
-  "module": "./dist/ui.es.js",
-  "files": ["dist"],
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "exports": {
+    ".": {
+      "require": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,11 +22,5 @@
     "react": "^18.2.0",
     "vite": "^4.1.0",
     "vite-plugin-dts": "^2.0.2"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/ui.es.js",
-      "require": "./dist/ui.umd.js"
-    }
   }
 }
