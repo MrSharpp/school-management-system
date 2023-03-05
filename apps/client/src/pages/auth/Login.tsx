@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -35,7 +34,7 @@ const Login = () =>
           backgroundPosition: 'center',
         }}
       />
-      <Grid item xs={12} sm={8} md={5} elevation={6} square>
+      <Grid component="main" item xs={12} sm={8} md={5}>
         <Box
           sx={{
             my: 8,
