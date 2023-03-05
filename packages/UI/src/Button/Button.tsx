@@ -1,61 +1,53 @@
 import * as React from 'react';
-import SwitchUnstyled, {
-  switchUnstyledClasses,
-} from '@mui/base/SwitchUnstyled';
+import ButtonUnstyled, {
+  buttonUnstyledClasses,
+} from '@mui/base/ButtonUnstyled';
+import { styled } from '@mui/system';
+// import Stack from '@mui/material/Stack';
 
-const css = `
-  .my-switch {
-    font-size: 0;
-    position: relative;
-    display: inline-block;
-    width: 32px;
-    height: 20px;
-    background: #B3C3D3;
-    border-radius: 10px;
-    margin: 10px;
-    cursor: pointer;
+const blue = {
+  500: '#007FFF',
+  600: '#0072E5',
+  700: '#0059B2',
+};
+
+const CustomButton = styled(ButtonUnstyled)`
+  font-family: IBM Plex Sans, sans-serif;
+  font-weight: bold;
+  font-size: 0.875rem;
+  background-color: ${blue[500]};
+  padding: 12px 24px;
+  border-radius: 12px;
+  color: white;
+  transition: all 150ms ease;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: ${blue[600]};
   }
 
-  .my-switch.${switchUnstyledClasses.checked} {
-    background: #007FFF;
+  &.${buttonUnstyledClasses.active} {
+    background-color: ${blue[700]};
   }
 
-  .my-switch .${switchUnstyledClasses.thumb} {
-    display: block;
-    width: 14px;
-    height: 14px;
-    top: 3px;
-    left: 3px;
-    border-radius: 16px;
-    background-color: #FFF;
-    position: relative;
-    transition: all 200ms ease;
+  &.${buttonUnstyledClasses.focusVisible} {
+    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1),
+      0 0 0 5px rgba(0, 127, 255, 0.5);
+    outline: none;
   }
 
-  .my-switch.${switchUnstyledClasses.checked} .${switchUnstyledClasses.thumb} {
-    left: 14px;
-    top: 3px;
-    background-color: #FFF;
+  &.${buttonUnstyledClasses.disabled} {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
+`;
 
-  .my-switch .${switchUnstyledClasses.input} {
-    cursor: inherit;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    z-index: 1;
-    margin: 0;
-  }`;
-
-export default function Button() {
+export default function UnstyledButtonsSimple() {
   return (
-    <div>
-      <style type="text/css">{css}</style>
-      LOLMO
-      <SwitchUnstyled className="my-switch" />
-    </div>
+    <>
+      <CustomButton>Button</CustomButton>
+      <CustomButton disabled>Disabled</CustomButton>
+    </>
   );
 }
