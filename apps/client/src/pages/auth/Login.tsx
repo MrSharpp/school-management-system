@@ -11,80 +11,85 @@ import Container from '@mui/material/Container';
 import { Button } from 'ui';
 
 const Login = () =>
-  <Container
-    component="main"
-    maxWidth="md"
-    style={{ borderRadius: '8px', borderColor: '#fff' }}
-  >
-    <Grid
-      container
+  <div style={{ display: 'display' }}>
+    <Container
       component="main"
-      sx={{
-        height: '50%',
-        borderRadius: 2,
-        marginTop: 20,
-        boxShadow: '0 0 10px rgb(0 0 0 / 10%)',
+      maxWidth="md"
+      style={{
+        maxWidth: '720px',
+        borderRadius: '8px',
+        borderColor: '#fff',
       }}
     >
-      <CssBaseline />
       <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
+        container
+        component="main"
         sx={{
-          borderRadius: '8px 20px 20px 8px',
-
-          backgroundImage: 'url(https://source.unsplash.com/random)',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: t =>
-            t.palette.mode === 'light'
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          height: '50%',
+          borderRadius: 2,
+          marginTop: 20,
+          boxShadow: '0 0 10px rgb(0 0 0 / 10%)',
         }}
-      />
-      <Grid component="main" item xs={12} sm={8} md={5}>
-        <Box
+      >
+        <CssBaseline />
+        <Grid
+          item
           sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            borderRadius: '8px 20px 20px 8px',
+            width: '50%',
+            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: t =>
+              t.palette.mode === 'light'
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
-        >
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button color="red">Login</Button>
-            {/* <Button
+        />
+        <Grid component="main" item xs={12} sm={8} md={5}>
+          <Box
+            sx={{
+              widows: '50%',
+              my: 8,
+              mx: 4,
+              // i know this is not fair, just doing it temporarily
+              mr: '-23px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button color="red">Login</Button>
+              {/* <Button
               type="submit"
               fullWidth
               variant="contained"
@@ -92,17 +97,18 @@ const Login = () =>
             >
               Sign In
             </Button> */}
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
-  </Container>;
+    </Container>
+  </div>;
 
 export default Login;
