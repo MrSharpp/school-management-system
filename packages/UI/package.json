@@ -18,7 +18,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@mui/base": "5.0.0-alpha.119",
+    "@mui/material": "^5.11.11",
+    "@mui/system": "^5.11.11",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "react": "^18.2.0",
     "vite": "^4.1.0",
