@@ -1,11 +1,12 @@
 import { lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from '../src/pages/auth/Login';
+import ButtonUnstyled from '@mui/base/ButtonUnstyled';
+import {Button} from 'ui'
 
 function App() {
   return (
     <>
-      <Login />
+    <Button/>
     </>
   );
 }
