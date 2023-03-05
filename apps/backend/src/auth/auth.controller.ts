@@ -7,10 +7,12 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { JwtService } from 'src/shared/jwt.service';
 import { AuthService } from './auth.service';
-import { SignInCredentialsDto } from './dtos/signin-credentials';
+import { SignInCredentialsDto } from './dtos/signin-credentials.DTO';
 
+@ApiTags('Authentication')
 @Controller()
 export class AuthController {
   constructor(
@@ -20,7 +22,11 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('/login')
-  async login(@Body() signinCredential: SignInCredentialsDto): Promise<string> {
+  async login(
+    @Body() signinCredential: SignInCredentialsDto
+  ): Promise<{ token: string }> {
+    console.log(signinCredential);
+
     const user = await this.authServie.login({
       email: signinCredential.email,
     });
@@ -28,12 +34,6 @@ export class AuthController {
     // validation for password
     if (!user || user.password != signinCredential.password)
       throw new UnauthorizedException('Invalid Credentials');
-    return this.jwtService.encode(user);
-  }
-
-  @HttpCode(200)
-  @Get('/dummy')
-  async dummy() {
-    return 'hell';
+    return { token: this.jwtService.encode(user) };
   }
 }
