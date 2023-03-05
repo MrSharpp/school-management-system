@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Button } from 'UI';
+import { Button } from 'ui';
 
 function App() {
   return (
