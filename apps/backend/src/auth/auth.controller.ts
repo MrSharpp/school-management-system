@@ -30,15 +30,13 @@ export class AuthController {
       email: signinCredential.email,
     });
 
-    if (!user) throw new UnauthorizedException('Invalid Credentials');
-
     // validation for password
     const answe = await bcrypt.compare(
       signinCredential.password,
-      user.password
+      user?.password
     );
 
-    if (!answe) throw new UnauthorizedException('Invalid Credentials');
+    if (!answe || !user) throw new UnauthorizedException('Invalid Credentials');
     return { token: this.jwtService.encode(user) };
   }
 }

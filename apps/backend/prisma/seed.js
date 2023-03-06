@@ -2,6 +2,7 @@
 // prisma/seed.ts
 
 const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcrypt');
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -13,7 +14,7 @@ async function main() {
     create: {
       email: 'admin@scms.com',
       name: 'Super Admin',
-      password: '$2b$10$5Sji/xxFv.0s61DvgBHI4OhOqUkVZu8Mitq8CUeKOsFeMPUidCYoC',
+      password: await bcrypt.hash('yaramerihai', 10),
     },
   });
 

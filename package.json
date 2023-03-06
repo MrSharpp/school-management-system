@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nx run-many --target=dev",
+    "dev": "nx run-many --target=serve --projects=client,backend --parallel",
     "build": "nx run-many --target=build"
   },
   "private": true,
