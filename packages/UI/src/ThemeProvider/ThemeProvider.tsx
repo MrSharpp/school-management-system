@@ -1,18 +1,14 @@
 import type { PropsWithChildren } from 'react';
-import {
-  createTheme,
-  ThemeProvider as MuiThemeProvider,
-} from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+
+import {ChakraProvider } from "@chakra-ui/react"
 
 const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const theme = createTheme({});
+
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <CssBaseline />
+    <ChakraProvider>
       {children}
-    </MuiThemeProvider>
+    </ChakraProvider>
   );
 };
 

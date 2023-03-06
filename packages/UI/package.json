@@ -18,12 +18,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@mui/base": "5.0.0-alpha.119",
-    "@mui/lab": "5.0.0-alpha.121",
-    "@mui/material": "^5.11.11",
-    "@mui/system": "^5.11.11"
+    "@emotion/styled": "^11.10.6"
   },
   "peerDependencies": {
     "@hookform/resolvers": "^2.9.11",
