@@ -10,6 +10,8 @@ async function bootstrap() {
   await primsaService.enableShutdownHooks(app);
   app.useGlobalPipes(new ZodValidationPipe());
 
+  app.enableCors({ allowedHeaders: '*' });
+
   // swagger config
   const config = new DocumentBuilder()
     .setTitle('SMS API')

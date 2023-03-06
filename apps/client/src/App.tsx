@@ -1,11 +1,18 @@
-import Login from '@pages/auth/Login';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+const LoginPage = lazy(() => import('@pages/auth/Login'));
 
 function App() {
   return (
-    <div className="bg-grey-3">
-      <Login />
-    </div>
+    <Suspense fallback="Loading...">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 
