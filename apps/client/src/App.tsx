@@ -1,17 +1,18 @@
-import Login from '@pages/auth/Login';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from 'ui';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
+const LoginPage = lazy(() => import('@pages/auth/Login'));
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <Login />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <Suspense fallback="Loading...">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/auth/login" element={<LoginPage />} />
+        </Routes>
+      </BrowserRouter>
+    </Suspense>
   );
 }
 
