@@ -11,6 +11,9 @@ export default defineConfig({
       src: path.resolve('src'),
       '@pages': path.resolve('src/pages'),
       '@components': path.resolve('src/components'),
+      '@schema': path.resolve('src/schema'),
+      '@APIService': path.resolve('src/APIService'),
+      '@hooks': path.resolve('src/hooks'),
     },
   },
 });

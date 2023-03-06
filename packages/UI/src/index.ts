@@ -1,2 +1,2 @@
 export * from './Button';
-export * from './auth/LoginComponent';
+export * from './ThemeProvider';
