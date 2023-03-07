@@ -18,6 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@pages/*": ["src/pages/*"],
+      "@layouts/*": ["src/layouts/*"],
       "@components/*": ["src/components/*"],
       "@schema/*": ["src/schema/*"],
       "@APIService/*": ["src/APIService/*"],
