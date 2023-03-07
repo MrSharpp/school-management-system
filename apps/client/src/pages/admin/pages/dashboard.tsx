@@ -1,10 +1,9 @@
-import { Text } from '@mantine/core';
-import { DefaultAdmin } from '@layouts/admin/default';
+import { Text, Button } from '@mantine/core';
+import { useNavigate } from 'react-router-dom';
 
 export function Dasboard() {
-  return (
-    <DefaultAdmin>
-      <Text>Hello</Text>
-    </DefaultAdmin>
-  );
+  const navigate = useNavigate()
+
+  return (<><Text>Dashboard</Text>
+  <Button onClick={() => navigate('/teachers')}> Teachers</Button></>)
 }
