@@ -1,12 +1,3 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { Button } from 'ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import LoginSchema from '@schema/LoginSchema';
@@ -14,6 +5,18 @@ import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 import { loginApiCall } from '@APIService/index';
 import { AxiosError } from 'axios';
+import {
+  Container,
+  Title,
+  Text,
+  Anchor,
+  Paper,
+  TextInput,
+  PasswordInput,
+  Checkbox,
+  Group,
+  Button,
+} from '@mantine/core';
 
 type IForm = z.infer<typeof LoginSchema>;
 
@@ -40,111 +43,41 @@ const LoginComponent = () => {
   });
 
   return (
-    <Container component="main" maxWidth="md">
-      <Grid
-        container
-        component="main"
-        sx={{
-          height: '50%',
-          border: 1,
-          borderRadius: 2,
-          marginTop: 20,
-          overflow: 'hidden',
-        }}
+    <Container size={420} my={40}>
+      <Title
+        align="center"
+        sx={theme => ({
+          fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+          fontWeight: 900,
+        })}
       >
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light'
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
+        Welcome back!
+      </Title>
+      <Text color="dimmed" size="sm" align="center" mt={5}>
+        Do not have an account yet?{' '}
+        <Anchor size="sm" component="button">
+          Create account
+        </Anchor>
+      </Text>
+
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        <TextInput label="Email" placeholder="you@mantine.dev" required />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          required
+          mt="md"
         />
-        <Grid item xs={12} sm={8} md={5} component="div">
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box
-              component="form"
-              noValidate
-              sx={{ mt: 1 }}
-              onSubmit={form.handleSubmit((val) => mutation.mutate(val))}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                autoComplete="email"
-                autoFocus
-                size="small"
-                {...form.register('email')}
-                error={!!form.formState.errors.email?.message?.length}
-                helperText={form.formState.errors.email?.message}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                size="small"
-                {...form.register('password')}
-                error={!!form.formState.errors.password?.message?.length}
-                helperText={form.formState.errors.password?.message}
-              />
-
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="true"
-                    color="primary"
-                    {...form.register('remember')}
-                  />
-                }
-                label="Remember me"
-              />
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Submit {mutation.isLoading && 'Loading'}
-              </Button>
-
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-              </Grid>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
+        <Group position="apart" mt="lg">
+          <Checkbox label="Remember me" />
+          <Anchor component="button" size="sm">
+            Forgot password?
+          </Anchor>
+        </Group>
+        <Button fullWidth mt="xl">
+          Sign in
+        </Button>
+      </Paper>
     </Container>
   );
 };
