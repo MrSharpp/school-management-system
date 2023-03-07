@@ -1,8 +1,15 @@
 import { AppShell, Header } from '@mantine/core';
 import { AdminNavbar } from '@layouts/components/adminNavbar';
-import type { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export function DefaultAdmin({children}: PropsWithChildren) {
+export function DefaultAdmin({ children }: PropsWithChildren) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('token')) {
+      navigate('/auth/login');
+    }
+  }, []);
   return (
     <AppShell
       padding="md"
