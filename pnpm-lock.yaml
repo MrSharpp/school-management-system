@@ -113,6 +113,7 @@ importers:
       '@vitejs/plugin-react-swc': ^3.0.0
       autoprefixer: ^10.4.13
       axios: ^1.3.4
+      mantine-datatable: ^1.8.6
       postcss: ^8.4.21
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -138,6 +139,7 @@ importers:
       '@tabler/icons-react': 2.8.0_react@18.2.0
       '@tanstack/react-query': 4.26.0_biqbaboplfbrettd7655fr4n2y
       axios: 1.3.4
+      mantine-datatable: 1.8.6_ozkgi6fw4fio2q572m2hpudknm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.43.4_react@18.2.0
@@ -5823,6 +5825,18 @@ packages:
     dependencies:
       tmpl: 1.0.5
     dev: true
+
+  /mantine-datatable/1.8.6_ozkgi6fw4fio2q572m2hpudknm:
+    resolution: {integrity: sha512-d+0xdN7rRVFln/EqekO71L22oFpSl2KJ/YNFh+isvKr9QrjDLPH0IKPn0FGnSMFTONfK6bNIRjUNSKMSDgbQ7w==}
+    peerDependencies:
+      '@mantine/core': ^5.10.4
+      '@mantine/hooks': ^5.10.4
+      react: ^18.2.0
+    dependencies:
+      '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
+      '@mantine/hooks': 6.0.0_react@18.2.0
+      react: 18.2.0
+    dev: false
 
   /media-typer/0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
