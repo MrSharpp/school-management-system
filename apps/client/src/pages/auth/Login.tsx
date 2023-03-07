@@ -18,13 +18,23 @@ import {
   Button,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type IForm = z.infer<typeof LoginSchema>;
 
 const LoginComponent = () => {
+  const navigate = useNavigate();
   const form = useForm<IForm>({
     resolver: zodResolver(LoginSchema),
   });
+
+  useEffect(() => {
+    // will add the verification from the backend lateer
+    if (localStorage.getItem('token')) {
+      navigate('/');
+    }
+  }, []);
 
   const mutation = useMutation({
     mutationFn: loginApiCall,
@@ -39,10 +49,12 @@ const LoginComponent = () => {
     },
 
     onSuccess(data, variables, context) {
+      localStorage.setItem('token', data.token);
       notifications.show({
         title: 'Success',
         message: 'Sucessfully logged In!',
       });
+      navigate('/');
     },
   });
 
