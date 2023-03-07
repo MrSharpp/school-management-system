@@ -7,7 +7,7 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtService } from 'src/shared/jwt.service';
 import { AuthService } from './auth.service';
 import { SignInCredentialsDto } from './dtos/signin-credentials.DTO';
