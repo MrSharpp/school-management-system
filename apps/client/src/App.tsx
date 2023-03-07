@@ -1,3 +1,4 @@
+import { Admin } from '@pages/admin/admin';
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -8,7 +9,7 @@ function App() {
     <Suspense fallback="Loading...">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<Admin />} />
           <Route path="/auth/login" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>

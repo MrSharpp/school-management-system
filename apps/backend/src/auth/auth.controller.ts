@@ -33,7 +33,7 @@ export class AuthController {
     // validation for password
     const answe = await bcrypt.compare(
       signinCredential.password,
-      user?.password
+      user?.password || ''
     );
 
     if (!answe || !user) throw new UnauthorizedException('Invalid Credentials');
