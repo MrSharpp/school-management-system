@@ -20,14 +20,14 @@ import {
   IconLogout,
   IconTrash,
 } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const user = {
   name: 'Mohd Ahmad',
   image: undefined,
 };
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles(theme => ({
   user: {
     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
@@ -58,6 +58,7 @@ const userMenu = observable({ opened: false });
 
 const AdminHeader = () => {
   const { classes, theme, cx } = useStyles();
+  const navigate = useNavigate();
 
   return (
     <Header height={rem(60)} p="xs">
@@ -157,19 +158,14 @@ const AdminHeader = () => {
               >
                 Change account
               </Menu.Item>
-              <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>
-                Logout
-              </Menu.Item>
-
-              <Menu.Divider />
-
-              <Menu.Label>Danger zone</Menu.Label>
-
               <Menu.Item
-                color="red"
-                icon={<IconTrash size="0.9rem" stroke={1.5} />}
+                icon={<IconLogout size="0.9rem" stroke={1.5} />}
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  navigate('/auth/login');
+                }}
               >
-                Delete account
+                Logout
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
