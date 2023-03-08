@@ -1,5 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { createZodDto, zodToOpenAPI } from 'nestjs-zod';
+import { createZodDto } from 'nestjs-zod';
 import { z } from 'nestjs-zod/z';
 
 const CredentialsSchema = z.object({

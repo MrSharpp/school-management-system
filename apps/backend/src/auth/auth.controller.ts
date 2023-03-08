@@ -7,7 +7,7 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtService } from 'src/shared/jwt.service';
 import { AuthService } from './auth.service';
 import { SignInCredentialsDto } from './dtos/signin-credentials.DTO';
@@ -33,7 +33,7 @@ export class AuthController {
     // validation for password
     const answe = await bcrypt.compare(
       signinCredential.password,
-      user?.password
+      user?.password || ''
     );
 
     if (!answe || !user) throw new UnauthorizedException('Invalid Credentials');

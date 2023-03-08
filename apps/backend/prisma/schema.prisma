@@ -11,8 +11,16 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
   name     String
+  teacher  Teacher?
+}
+
+model Teacher {
+  teacherId Int    @id @default(autoincrement())
+  gender    String
+  userId    Int?   @unique
+  User      User?  @relation(fields: [userId], references: [id])
 }
