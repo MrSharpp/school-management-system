@@ -107,10 +107,6 @@ importers:
       '@mantine/hooks': ^6.0.0
       '@mantine/notifications': ^6.0.0
       '@mantine/prism': ^6.0.0
-      '@mui/base': 5.0.0-alpha.119
-      '@mui/lab': 5.0.0-alpha.121
-      '@mui/material': ^5.11.11
-      '@mui/system': ^5.11.11
       '@tabler/icons-react': ^2.8.0
       '@tanstack/react-query': ^4.26.0
       '@types/react': ^18.0.27
@@ -119,6 +115,7 @@ importers:
       autoprefixer: ^10.4.13
       axios: ^1.3.4
       dayjs: ^1.11.7
+      lodash: ^4.17.21
       mantine-datatable: ^1.8.6
       postcss: ^8.4.21
       react: ^18.2.0
@@ -136,14 +133,16 @@ importers:
       '@iconscout/react-unicons': 2.0.0_react@18.2.0
       '@legendapp/state': 0.23.4_fzttb3lrkfqghprguwhot7fira
       '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
-      '@mantine/ds': 6.0.0_t3x4f5wx3l75tnpgznpb74zpiu
+      '@mantine/ds': 6.0.0_cu37ofrtph5hdru3e5njoudczq
       '@mantine/form': 6.0.1_react@18.2.0
       '@mantine/hooks': 6.0.0_react@18.2.0
       '@mantine/notifications': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
+      '@mantine/prism': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
       '@tabler/icons-react': 2.8.0_react@18.2.0
       '@tanstack/react-query': 4.26.0_biqbaboplfbrettd7655fr4n2y
       axios: 1.3.4
       dayjs: 1.11.7
+      lodash: 4.17.21
       mantine-datatable: 1.8.6_ozkgi6fw4fio2q572m2hpudknm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -1060,7 +1059,7 @@ packages:
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.43.4
+      react-hook-form: 7.43.4_react@18.2.0
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
@@ -6434,6 +6433,7 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
+    dev: true
 
   /react-hook-form/7.43.4_react@18.2.0:
     resolution: {integrity: sha512-JZp05wvmuV8qr3NNDWwyhiQL05sh9E8x/2NoWtkdiyyiezmwOr5pKexlvbCEfBMa7ZYrvzk88G/uhLl47T9b7Q==}
@@ -6442,7 +6442,6 @@ packages:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
       react: 18.2.0
-    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -6629,7 +6628,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
-    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}

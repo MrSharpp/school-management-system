@@ -1,11 +1,12 @@
+import AllStudents from '@pages/admin/students/AllStudents';
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const Admin = lazy(() => import('@pages/admin/index'));
 const LoginPage = lazy(() => import('@pages/auth/Login'));
 const Dashboard = lazy(() => import('@pages/admin/pages/dashboard'));
-const Teachers = lazy(
-  () => import('@pages/admin/pages/Teachers/All Teachers/AllTeachers')
+const Teachers = lazy(() =>
+  import('@pages/admin/pages/Teachers/All Teachers/AllTeachers')
 );
 const AddTeacher = lazy(
   () => import('@pages/admin/pages/Teachers/AddTeacher')
@@ -20,6 +21,10 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="teachers" element={<Teachers />} />
             <Route path="teachers/new" element={<AddTeacher />} />
+
+            <Route path="students">
+              <Route index element={<AllStudents />} />
+            </Route>
           </Route>
 
           <Route path="/auth/login" element={<LoginPage />} />
