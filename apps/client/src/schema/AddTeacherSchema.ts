@@ -7,4 +7,6 @@ const AddTeachersSchema = z.object({
   gender: z.enum(['Male', 'Female']),
 });
 
+export type IAddTeacherSchema = z.infer<typeof AddTeachersSchema>;
+
 export default AddTeachersSchema;
