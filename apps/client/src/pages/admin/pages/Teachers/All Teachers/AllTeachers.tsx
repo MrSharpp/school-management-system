@@ -10,9 +10,7 @@ import {
   Container,
   Group,
 } from '@mantine/core';
-import { useDebouncedValue } from '@mantine/hooks';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { useEffect, useState } from 'react';
 import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -21,7 +19,6 @@ import debounce from 'lodash/debounce';
 import Teachers from './teachers.json';
 import { observable } from '@legendapp/state';
 import { observer, useObserveEffect } from '@legendapp/state/react';
-import { reactive } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
 
 const initialRecords = Teachers.slice(0, 100);
@@ -54,11 +51,11 @@ export default function AllTeachers() {
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Teachers', href: '/teachers' },
-  ].map((item, index) => (
+  ].map((item, index) =>
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
     </Anchor>
-  ));
+  );
 
   useObserveEffect(() => {
     let data = [...Teachers];
@@ -103,7 +100,7 @@ export default function AllTeachers() {
             placeholder="Search teachers..."
             icon={<IconSearch size={16} />}
             value$={state.query}
-            onChange={(e) => state.query.set(e.currentTarget.value)}
+            onChange={e => state.query.set(e.currentTarget.value)}
           />
         </Grid.Col>
       </Grid>
@@ -165,7 +162,7 @@ export default function AllTeachers() {
         totalRecords$={state.records.length}
         recordsPerPage={PAGE_SIZE}
         page$={state.page}
-        onPageChange={(p) => state.page.set(p)}
+        onPageChange={p => state.page.set(p)}
       />
     </Container>
   );

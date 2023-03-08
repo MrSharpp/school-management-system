@@ -13,6 +13,7 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    return validateRequest(request);
+    // validation will be made when ROLE_BASED_AUTH will be completed
+    return true;
   }
 }

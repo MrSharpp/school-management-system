@@ -22,6 +22,7 @@ model User {
 model Teacher {
   teacherId Int    @id @default(autoincrement())
   gender    String
+  phoneNo   String
   userId    Int?   @unique
   User      User?  @relation(fields: [userId], references: [id])
 }
