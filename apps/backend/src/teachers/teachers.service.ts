@@ -4,6 +4,7 @@ import { addTeachersDTO } from './Dtos/add-teacher.DTO';
 import { DeleteTeachersDto } from './Dtos/delete-teacher.DTO';
 import { UpdateTeacherDto } from './Dtos/update-teacher.DTO';
 import * as bcrypt from 'bcrypt';
+import { Roles } from 'src/shared/constants.service';
 
 @Injectable()
 export class TeachersService {
@@ -15,6 +16,7 @@ export class TeachersService {
       data: {
         email: teachersDto.email,
         password: passwordHash,
+        roll: Roles.TEACHER,
         name: teachersDto.name,
       },
     });
