@@ -3,27 +3,27 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
   Patch,
   Post,
   Res,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+
 import { Response } from 'express';
-import { send } from 'process';
 import { ErrorDescriber } from 'src/shared/errors.service';
 import { addTeachersDTO } from './Dtos/add-teacher.DTO';
 import { DeleteTeachersDto } from './Dtos/delete-teacher.DTO';
 import { UpdateTeacherDto } from './Dtos/update-teacher.DTO';
 import { TeachersService } from './teachers.service';
 
-@Controller()
+@Controller('teachers')
 export class TeachersController {
   constructor(
     private teachersService: TeachersService,
     private errorDescripber: ErrorDescriber
   ) {}
 
-  @Post('/teachers')
+  @Post()
   async addTeacher(
     @Body() teahcersSchema: addTeachersDTO,
     @Res() response: Response
@@ -35,30 +35,71 @@ export class TeachersController {
         .catch((err) => {
           const description = this.errorDescripber.getErrorDescription(
             err.code,
-            err.meta.target
+            err.meta?.target
           );
           return response.status(description.status).json(description);
         })
     ).send();
   }
 
-  @Get('/teachers')
-  getTeachers() {
-    this.teachersService.getAllTeachers();
+  @Get()
+  getTeachers(@Res() response: Response) {
+    this.teachersService
+      .getAllTeachers()
+      .then((teachers) => {
+        response.status(200).json({ teachers });
+      })
+      .catch(() =>
+        response.status(500).json({ message: 'Something went wrong!' })
+      );
   }
 
-  @Get('/teachers/:id')
-  getTeacher() {
-    this.teachersService.getAllTeachers();
+  @Get(':id')
+  getTeacher(@Param('id') id, @Res() response: Response) {
+    if (!id)
+      return response.status(400).json({
+        message: 'Teacher id in parameter not provided or incorrect format',
+      });
+    this.teachersService
+      .getTeacher(parseInt(id))
+      .then((teacher) => response.status(200).json({ teacher }))
+      .catch(() =>
+        response.status(500).json({ message: 'Something went wrong!' })
+      );
   }
 
-  @Delete('/teachers')
-  deleteTeacher(@Body() deleteTeacherSchema: DeleteTeachersDto) {
-    this.teachersService.deleteTeacher(deleteTeacherSchema);
+  @Delete()
+  deleteTeacher(
+    @Body() deleteTeacherSchema: DeleteTeachersDto,
+    @Res() response: Response
+  ) {
+    this.teachersService
+      .deleteTeacher(deleteTeacherSchema)
+      .then(() =>
+        response.status(200).json({ message: 'Teacher deleted Sucessfully!' })
+      )
+      .catch(() =>
+        response.status(500).json({ message: 'Error while deleting teacher' })
+      );
   }
 
-  @Patch('/teachers')
-  updateTeacher(@Body() updateTeachersSchema: UpdateTeacherDto) {
-    this.teachersService.updateTeacher(updateTeachersSchema);
+  @Patch(':id')
+  updateTeacher(
+    @Body() updateTeachersSchema: UpdateTeacherDto,
+    @Param('id') id,
+    @Res() response: Response
+  ) {
+    if (!id)
+      return response.status(400).json({
+        message: 'Teacher id in parameter not provided or incorrect format',
+      });
+    this.teachersService
+      .updateTeacher(parseInt(id), updateTeachersSchema)
+      .then((teacher) =>
+        response
+          .status(200)
+          .json({ message: 'Teacher Updated Sucessfully!', teacher })
+      )
+      .catch((err) => response.status(500).json({ message: err.message }));
   }
 }
