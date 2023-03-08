@@ -1,8 +1,7 @@
-import axios from 'axios';
-import Config from 'src/Config';
+import { axios } from '@APIService/axios';
 
 async function loginApiCall(body: { email: string; password: string }) {
-  const data = await axios.post(Config.baseURL + '/login', body);
+  const data = await axios.post('/login', body);
   return data.data;
 }
 
