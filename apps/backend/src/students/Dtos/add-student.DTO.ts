@@ -6,7 +6,7 @@ const addStudentStudents = z.object({
   email: z.string().email(),
   rollNo: z.string().nonempty(),
   guardianNumber: z.string().optional(),
-  classId: z.string(),
+  classId: z.string().optional(),
 });
 
 export class AddStudentDTO extends createZodDto(addStudentStudents) {}
