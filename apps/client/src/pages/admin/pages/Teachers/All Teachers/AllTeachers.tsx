@@ -1,8 +1,8 @@
-import { ActionIcon, Box, Grid, TextInput } from '@mantine/core';
+import { ActionIcon, Box, Grid, TextInput, Button, Group } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { IconEdit, IconSearch, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
@@ -11,6 +11,7 @@ import { Container } from '@mantine/core';
 import { observable } from '@legendapp/state';
 import { observer, useObserveEffect } from '@legendapp/state/react';
 import { reactive } from '@legendapp/state/react';
+import { TextInput$, DataTable$ } from 'ui';
 
 const initialRecords = Teachers.slice(0, 100);
 const PAGE_SIZE = 10;
@@ -35,9 +36,6 @@ const getDebounceQuery = debounce(() => {
 state.query.onChange(() => {
   getDebounceQuery();
 });
-
-const ReactiveTextInput = reactive(TextInput);
-const ReactiveDataTable = reactive(DataTable);
 
 function AllTeachers() {
   const navigate = useNavigate();
@@ -70,17 +68,28 @@ function AllTeachers() {
     <Container fluid>
       <Grid align="center" mb="md">
         <Grid.Col xs={8} sm={9}>
-          <ReactiveTextInput
-            sx={{ flexBasis: '60%' }}
+          <TextInput$
+            // sx={{ flexBasis: '60%' }}
             placeholder="Search teachers..."
             icon={<IconSearch size={16} />}
             value$={state.query}
             onChange={(e) => state.query.set(e.currentTarget.value)}
           />
         </Grid.Col>
+
+        <Grid.Col xs={4} sm={3}>
+          <Group position="right">
+            <Button
+              leftIcon={<IconPlus size={16} />}
+              onClick={() => navigate('new')}
+            >
+              Add New Teacher
+            </Button>
+          </Group>
+        </Grid.Col>
       </Grid>
 
-      <ReactiveDataTable
+      <DataTable$
         withBorder
         records$={state.sortedRecords}
         columns={[
@@ -124,7 +133,7 @@ function AllTeachers() {
                     <IconEdit size={16} />
                   </ActionIcon>
 
-                  <ActionIcon color="red" >
+                  <ActionIcon color="red">
                     <IconTrash size={16} />
                   </ActionIcon>
                 </div>
