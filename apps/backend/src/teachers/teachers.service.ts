@@ -27,11 +27,59 @@ export class TeachersService {
     });
   }
 
-  getTeacher() {}
+  getTeacher(id: number) {
+    return this.prismaService.teacher.findUnique({
+      where: {
+        teacherId: id,
+      },
+    });
+  }
 
-  getAllTeachers() {}
+  getAllTeachers() {
+    return this.prismaService.teacher.findMany({
+      include: {
+        User: {
+          select: {
+            email: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
 
-  deleteTeacher(deleteTeachersDto: DeleteTeachersDto) {}
+  deleteTeacher(deleteTeachersDto: DeleteTeachersDto) {
+    return this.prismaService.teacher.delete({
+      where: {
+        teacherId: deleteTeachersDto.teacherId,
+      },
+    });
+  }
 
-  updateTeacher(updateTeacherDto: UpdateTeacherDto) {}
+  async updateTeacher(id: number, updateTeacherDto: UpdateTeacherDto) {
+    console.log(updateTeacherDto);
+
+    if (updateTeacherDto.User?.password)
+      updateTeacherDto.User.password = await bcrypt.hash(
+        updateTeacherDto.User.password,
+        10
+      );
+
+    const { User, ...teacherData } = updateTeacherDto;
+
+    return this.prismaService.teacher.update({
+      where: { teacherId: id },
+      data: {
+        ...teacherData,
+        User: {
+          update: {
+            ...User,
+          },
+        },
+      },
+      include: {
+        User: true,
+      },
+    });
+  }
 }

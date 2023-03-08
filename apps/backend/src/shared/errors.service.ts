@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 // prisma error binding to meaningfull responses
 const Errors = new Map<string, { status: number; message: string }>();
-Errors.set('P2002', { status: 409, message: 'Field Already Exists' });
+Errors.set('P2002', { status: 409, message: 'Record Already Exists' });
 
 @Injectable()
 export class ErrorDescriber {
