@@ -7,9 +7,11 @@ import {
   Patch,
   Post,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 
 import { Response } from 'express';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { ErrorDescriber } from 'src/shared/errors.service';
 import { addTeachersDTO } from './Dtos/add-teacher.DTO';
 import { DeleteTeachersDto } from './Dtos/delete-teacher.DTO';
@@ -17,6 +19,7 @@ import { UpdateTeacherDto } from './Dtos/update-teacher.DTO';
 import { TeachersService } from './teachers.service';
 
 @Controller('teachers')
+@UseGuards(AuthGuard)
 export class TeachersController {
   constructor(
     private teachersService: TeachersService,
