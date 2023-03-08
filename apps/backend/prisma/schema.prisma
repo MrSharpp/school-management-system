@@ -33,12 +33,11 @@ model Student {
   email          String?
   rollNo         String
   guardianNumber String?
-  class          Class   @relation(fields: [classId], references: [classId])
-  classId        Int
+  classes        Class[]
 }
 
 model Class {
   classId   Int       @id @default(autoincrement())
   className String
-  Student   Student[]
+  students  Student[]
 }

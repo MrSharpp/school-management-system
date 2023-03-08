@@ -6,7 +6,7 @@ const editStudentShema = z.object({
   email: z.string().email().optional(),
   rollNo: z.string().nonempty().optional(),
   guardianNumber: z.string().optional(),
-  classId: z.string().optional(),
+  classIds: z.string().array().optional(),
 });
 
 export class EditStudentDTO extends createZodDto(editStudentShema) {}
