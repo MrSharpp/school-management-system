@@ -4,8 +4,7 @@ import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import sortBy from 'lodash/sortBy';
-import debounce from 'lodash/debounce';
+// import sortBy from 'lodash/sortBy';
 import Teachers from './teachers.json';
 import { Container } from '@mantine/core';
 import { observable } from '@legendapp/state';
@@ -40,40 +39,50 @@ state.query.onChange(() => {
 function AllTeachers() {
   const navigate = useNavigate();
 
-  useObserveEffect(() => {
-    let data = sortBy(Teachers, state.sortStatus.columnAccessor.get());
-    data = state.sortStatus.direction.get() === 'desc' ? data.reverse() : data;
-
-    const from = (state.page.get() - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE;
-
-    const query = debouncedQuery.get();
-    if (query.length) {
-      console.log(query.trim().toLowerCase());
-      console.log(
-        `${Teachers[0].id} ${Teachers[0].name} ${Teachers[0].phone} `
-      );
-
-      data = Teachers.filter(({ id, name, phone }: any) =>
-        `${id} ${name} ${phone}`.match(new RegExp(query.trim(), 'i'))
-      );
-    }
-
-    data = data.slice(from, to);
-
-    state.sortedRecords.set(data);
+  const [records, setRecords] = useState(initialRecords);
+  const [query, setQuery] = useState('');
+  const [debouncedQuery] = useDebouncedValue(query, 200);
+  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+    columnAccessor: 'name',
+    direction: 'asc',
   });
+  const [page, setPage] = useState(1);
+  const [pageRecords, setPageRecords] = useState(Teachers.slice(0, PAGE_SIZE));
+
+  useEffect(() => {
+    setRecords(
+      initialRecords.filter(({ id, name, phone }: any) => {
+        if (
+          debouncedQuery !== '' &&
+          !`${id} ${name} ${phone} `
+            .toLowerCase()
+            .includes(debouncedQuery.trim().toLowerCase())
+        ) {
+          return false;
+        }
+        return true;
+      })
+    );
+
+    // let data = sortBy(Teachers, sortStatus.columnAccessor);
+    // data = sortStatus.direction === 'desc' ? data.reverse() : data;
+
+    // const from = (page - 1) * PAGE_SIZE;
+    // const to = from + PAGE_SIZE;
+
+    // setPageRecords(data.slice(from, to));
+  }, [debouncedQuery, page, sortStatus]);
 
   return (
-    <Container fluid>
+    <>
       <Grid align="center" mb="md">
         <Grid.Col xs={8} sm={9}>
           <TextInput$
             // sx={{ flexBasis: '60%' }}
             placeholder="Search teachers..."
             icon={<IconSearch size={16} />}
-            value$={state.query}
-            onChange={(e) => state.query.set(e.currentTarget.value)}
+            value={query}
+            onChange={(e) => setQuery(e.currentTarget.value)}
           />
         </Grid.Col>
 
@@ -91,7 +100,7 @@ function AllTeachers() {
 
       <DataTable$
         withBorder
-        records$={state.sortedRecords}
+        records={records}
         columns={[
           {
             accessor: 'id',
@@ -123,11 +132,11 @@ function AllTeachers() {
                   style={{
                     display: 'flex',
                     gap: 10,
-                    // justifyContent: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   <ActionIcon
-                    color="gray"
+                    color="dark"
                     onClick={() => navigate('patient-details')}
                   >
                     <IconEdit size={16} />
@@ -141,16 +150,13 @@ function AllTeachers() {
             },
           },
         ]}
-        sortStatus$={state.sortStatus}
-        onSortStatusChange={state.sortStatus.set}
+        sortStatus={sortStatus}
+        onSortStatusChange={setSortStatus}
         totalRecords={Teachers.length}
         recordsPerPage={PAGE_SIZE}
-        page$={state.page}
-        onPageChange={(p) => state.page.set(p)}
+        page={page}
+        onPageChange={(p) => setPage(p)}
       />
-    </Container>
+    </>
   );
 }
-
-// export default observer(AllTeachers);
-export default AllTeachers;
