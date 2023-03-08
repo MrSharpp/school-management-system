@@ -1,2 +1,2 @@
-export * from './login';
-export * from './teachers';
+import * as ApiCalls from './_barrel';
+export default ApiCalls;
