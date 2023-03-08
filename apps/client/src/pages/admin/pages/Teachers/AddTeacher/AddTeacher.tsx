@@ -1,5 +1,13 @@
 import React from 'react';
-import { Paper, Container, Title, Box, Button, Stack } from '@mantine/core';
+import {
+  Paper,
+  Container,
+  Title,
+  Box,
+  Button,
+  Stack,
+  PasswordInput,
+} from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
 import { z } from 'zod';
@@ -34,7 +42,7 @@ const AddTeacher = () => {
       notifications.show({
         title: 'Error',
         message: 'OOPS! an unezpected error ocoured while creating teacher',
-        color: 'red'
+        color: 'red',
       });
     },
 
@@ -75,7 +83,7 @@ const AddTeacher = () => {
                 disabled={addTeacherMutation.isLoading}
               />
 
-              <TextInput$
+              <PasswordInput
                 {...form.getInputProps('password')}
                 withAsterisk
                 label="Passowrd"
@@ -92,7 +100,11 @@ const AddTeacher = () => {
               />
             </Stack>
 
-            <Button mt="md" type="submit" loading={addTeacherMutation.isLoading} >
+            <Button
+              mt="md"
+              type="submit"
+              loading={addTeacherMutation.isLoading}
+            >
               Save
             </Button>
           </Paper>

@@ -39,39 +39,23 @@ state.query.onChange(() => {
 function AllTeachers() {
   const navigate = useNavigate();
 
-  const [records, setRecords] = useState(initialRecords);
-  const [query, setQuery] = useState('');
-  const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-    columnAccessor: 'name',
-    direction: 'asc',
+  useObserveEffect(() => {
+    let data = sortBy(Teachers, sortStatus.columnAccessor);
+    data = sortStatus.direction === 'desc' ? data.reverse() : data;
+
+    if (debouncedQuery.get().length) {
+      data = data.filter(({ id, name, phone }: any) =>
+        `${id} ${name} ${phone} `
+          .toLowerCase()
+          .includes(debouncedQuery.trim().toLowerCase())
+      );
+    }
+
+    const from = (page - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE;
+
+    setPageRecords(data.slice(from, to));
   });
-  const [page, setPage] = useState(1);
-  const [pageRecords, setPageRecords] = useState(Teachers.slice(0, PAGE_SIZE));
-
-  useEffect(() => {
-    setRecords(
-      initialRecords.filter(({ id, name, phone }: any) => {
-        if (
-          debouncedQuery !== '' &&
-          !`${id} ${name} ${phone} `
-            .toLowerCase()
-            .includes(debouncedQuery.trim().toLowerCase())
-        ) {
-          return false;
-        }
-        return true;
-      })
-    );
-
-    // let data = sortBy(Teachers, sortStatus.columnAccessor);
-    // data = sortStatus.direction === 'desc' ? data.reverse() : data;
-
-    // const from = (page - 1) * PAGE_SIZE;
-    // const to = from + PAGE_SIZE;
-
-    // setPageRecords(data.slice(from, to));
-  }, [debouncedQuery, page, sortStatus]);
 
   return (
     <>
