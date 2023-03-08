@@ -1,12 +1,24 @@
-import { ActionIcon, Box, Grid, TextInput, Button, Group } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Grid,
+  Flex,
+  Breadcrumbs,
+  Title,
+  Button,
+  Anchor,
+  Container,
+  Group,
+} from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-// import sortBy from 'lodash/sortBy';
+import { Link } from 'react-router-dom';
+import sortBy from 'lodash/sortBy';
+import debounce from 'lodash/debounce';
 import Teachers from './teachers.json';
-import { Container } from '@mantine/core';
 import { observable } from '@legendapp/state';
 import { observer, useObserveEffect } from '@legendapp/state/react';
 import { reactive } from '@legendapp/state/react';
@@ -36,55 +48,69 @@ state.query.onChange(() => {
   getDebounceQuery();
 });
 
-function AllTeachers() {
+export default function AllTeachers() {
   const navigate = useNavigate();
 
-  useObserveEffect(() => {
-    let data = sortBy(Teachers, sortStatus.columnAccessor);
-    data = sortStatus.direction === 'desc' ? data.reverse() : data;
+  const items = [
+    { title: 'Admin', href: '/' },
+    { title: 'Teachers', href: '/teachers' },
+  ].map((item, index) => (
+    <Anchor component={Link} to={item.href} key={index}>
+      {item.title}
+    </Anchor>
+  ));
 
-    if (debouncedQuery.get().length) {
+  useObserveEffect(() => {
+    let data = [...Teachers];
+
+    const query = debouncedQuery.get().trim().toLowerCase();
+
+    if (query.length) {
       data = data.filter(({ id, name, phone }: any) =>
-        `${id} ${name} ${phone} `
-          .toLowerCase()
-          .includes(debouncedQuery.trim().toLowerCase())
+        `${id} ${name} ${phone} `.toLowerCase().includes(query)
       );
     }
 
-    const from = (page - 1) * PAGE_SIZE;
+    data = sortBy(data, state.sortStatus.columnAccessor.get());
+    data = state.sortStatus.direction.get() === 'desc' ? data.reverse() : data;
+
+    const from = (state.page.get() - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
 
-    setPageRecords(data.slice(from, to));
+    state.sortedRecords.set(data.slice(from, to));
   });
 
   return (
-    <>
+    <Container fluid>
       <Grid align="center" mb="md">
-        <Grid.Col xs={8} sm={9}>
-          <TextInput$
-            // sx={{ flexBasis: '60%' }}
-            placeholder="Search teachers..."
-            icon={<IconSearch size={16} />}
-            value={query}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-          />
+        <Grid.Col>
+          <Flex justify={'space-between'} sx={{ alignItems: 'center' }}>
+            <div>
+              <Breadcrumbs separator="/" mt="xs">
+                {items}
+              </Breadcrumbs>
+
+              <Title mt={4} color={'#495057'}>
+                Teachers
+              </Title>
+            </div>
+            <Button mr={'1%'}>Add Teacher</Button>
+          </Flex>
         </Grid.Col>
 
-        <Grid.Col xs={4} sm={3}>
-          <Group position="right">
-            <Button
-              leftIcon={<IconPlus size={16} />}
-              onClick={() => navigate('new')}
-            >
-              Add New Teacher
-            </Button>
-          </Group>
+        <Grid.Col xs={3} sm={3}>
+          <TextInput$
+            placeholder="Search teachers..."
+            icon={<IconSearch size={16} />}
+            value$={state.query}
+            onChange={(e) => state.query.set(e.currentTarget.value)}
+          />
         </Grid.Col>
       </Grid>
 
       <DataTable$
         withBorder
-        records={records}
+        records$={state.sortedRecords}
         columns={[
           {
             accessor: 'id',
@@ -134,13 +160,15 @@ function AllTeachers() {
             },
           },
         ]}
-        sortStatus={sortStatus}
-        onSortStatusChange={setSortStatus}
-        totalRecords={Teachers.length}
+        sortStatus$={state.sortStatus}
+        onSortStatusChange={state.sortStatus.set}
+        totalRecords$={state.records.length}
         recordsPerPage={PAGE_SIZE}
-        page={page}
-        onPageChange={(p) => setPage(p)}
+        page$={state.page}
+        onPageChange={(p) => state.page.set(p)}
       />
-    </>
+    </Container>
   );
 }
+
+// export default AllTeachers
