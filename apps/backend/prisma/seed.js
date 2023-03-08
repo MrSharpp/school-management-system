@@ -14,7 +14,7 @@ async function main() {
     create: {
       email: 'admin@scms.com',
       name: 'Super Admin',
-      fullName: 'Amir Alam',
+      // fullName: 'Amir Alam',
       password: await bcrypt.hash('yaramerihai', 10),
     },
   });

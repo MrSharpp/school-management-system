@@ -9,7 +9,12 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
-import { IconCalendarStats, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import {
+  IconCalendarStats,
+  IconChevronLeft,
+  IconChevronRight,
+} from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -21,7 +26,10 @@ const useStyles = createStyles((theme) => ({
     fontSize: theme.fontSizes.sm,
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark[7]
+          : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
   },
@@ -34,13 +42,19 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: rem(31),
     marginLeft: rem(30),
     fontSize: theme.fontSizes.sm,
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    color:
+      theme.colorScheme === 'dark'
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
     borderLeft: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
 
     '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+      backgroundColor:
+        theme.colorScheme === 'dark'
+          ? theme.colors.dark[7]
+          : theme.colors.gray[0],
       color: theme.colorScheme === 'dark' ? theme.white : theme.black,
     },
   },
@@ -55,20 +69,26 @@ interface LinksGroupProps {
   label: string;
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
+  link?: string;
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) {
+export function LinksGroup({
+  icon: Icon,
+  label,
+  initiallyOpened,
+  links,
+  link,
+}: LinksGroupProps) {
   const { classes, theme } = useStyles();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
   const items = (hasLinks ? links : []).map((link) => (
-    <Text<'a'>
-      component="a"
+    <Text<typeof Link>
+      component={Link}
       className={classes.link}
-      href={link.link}
+      to={link.link}
       key={link.label}
-      onClick={(event) => event.preventDefault()}
     >
       {link.label}
     </Text>
@@ -76,7 +96,12 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
 
   return (
     <>
-      <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+      <UnstyledButton
+        onClick={() => setOpened((o) => !o)}
+        className={classes.control}
+        component={(link ? Link : 'button') as any}
+        {...(link ? { to: link } : {})}
+      >
         <Group position="apart" spacing={0}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ThemeIcon variant="light" size={30}>
@@ -84,18 +109,22 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
+
           {hasLinks && (
             <ChevronIcon
               className={classes.chevron}
               size="1rem"
               stroke={1.5}
               style={{
-                transform: opened ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)` : 'none',
+                transform: opened
+                  ? `rotate(${theme.dir === 'rtl' ? -90 : 90}deg)`
+                  : 'none',
               }}
             />
           )}
         </Group>
       </UnstyledButton>
+
       {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
     </>
   );
@@ -117,7 +146,8 @@ export function NavbarLinksGroup() {
       sx={(theme) => ({
         minHeight: rem(220),
         padding: theme.spacing.md,
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+        backgroundColor:
+          theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
       })}
     >
       <LinksGroup {...mockdata} />
