@@ -2,6 +2,7 @@ import { AppShell, Header } from '@mantine/core';
 import { AdminNavbar } from '@layouts/components/adminNavbar';
 import { Suspense, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
+import AdminHeader from '@layouts/components/AdminHeader';
 
 function DefaultAdmin() {
   const navigate = useNavigate();
@@ -16,11 +17,7 @@ function DefaultAdmin() {
     <AppShell
       padding="md"
       navbar={<AdminNavbar />}
-      header={
-        <Header height={60} p="xs">
-          Header
-        </Header>
-      }
+      header={<AdminHeader />}
       styles={(theme) => ({
         main: {
           backgroundColor:
