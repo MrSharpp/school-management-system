@@ -26,8 +26,6 @@ export class StudentsService {
   }
 
   getStudent(id: number) {
-    console.log(id);
-
     return this.prismaService.student.findUnique({ where: { studentId: id } });
   }
 
