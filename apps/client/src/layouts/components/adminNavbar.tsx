@@ -26,17 +26,16 @@ const mockdata = [
     links: [
       { label: 'All Teachers', link: '/teachers' },
       { label: 'Add New', link: '/teachers/new' },
-      { label: 'Outlook', link: '/' },
-      { label: 'Real time', link: '/' },
+      { label: 'Edit Teacher', link: '/teachers/edit' },
     ],
   },
   {
-    label: 'Releases',
+    label: 'Students',
     icon: IconCalendarStats,
     links: [
-      { label: 'Upcoming releases', link: '/' },
-      { label: 'Previous releases', link: '/' },
-      { label: 'Releases schedule', link: '/' },
+      { label: 'All Students', link: '/students' },
+      { label: 'Add New', link: '/teachers/new' },
+      { label: 'Edit Student', link: '/teachers/edit' },
     ],
   },
   { label: 'Analytics', icon: IconPresentationAnalytics },
