@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import LoginSchema from '@schema/LoginSchema';
 import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
-import { loginApiCall } from '@APIService/index';
+import ApiCalls from '@APIService/index';
 import { AxiosError } from 'axios';
 import {
   Container,
@@ -37,7 +37,7 @@ const LoginComponent = () => {
   }, []);
 
   const mutation = useMutation({
-    mutationFn: loginApiCall,
+    mutationFn: ApiCalls.login,
 
     onError(error: AxiosError, variables, context) {
       form.setError('email', {

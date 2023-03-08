@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Paper,
   Container,
@@ -12,13 +11,11 @@ import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
 import { z } from 'zod';
 import AddTeachersSchema from '@schema/AddTeacherSchema';
-import { createObservableHook } from '@legendapp/state/react-hooks/createObservableHook';
 import { useMutation } from '@tanstack/react-query';
-import { loginApiCall } from '@APIService/login';
+import ApiCalls from '@APIService/index';
 import { useNavigate } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
-import { addTeacherApiCall } from '@APIService/teachers';
 
 type IForm = z.infer<typeof AddTeachersSchema>;
 
@@ -36,7 +33,7 @@ const AddTeacher = () => {
   });
 
   const addTeacherMutation = useMutation({
-    mutationFn: addTeacherApiCall,
+    mutationFn: ApiCalls.addTeacher,
 
     onError(error: AxiosError, variables, context) {
       notifications.show({

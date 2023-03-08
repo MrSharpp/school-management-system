@@ -20,6 +20,8 @@ import Teachers from './teachers.json';
 import { observable } from '@legendapp/state';
 import { observer, useObserveEffect } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
+import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
+import ApiCalls from '@APIService/index';
 
 const initialRecords = Teachers.slice(0, 100);
 const PAGE_SIZE = 10;
@@ -48,14 +50,19 @@ state.query.onChange(() => {
 export default function AllTeachers() {
   const navigate = useNavigate();
 
+  const getTeachersQuery = useObservableQuery({
+    queryKey: ['get_teachers'],
+    queryFn: ApiCalls.getTeachers,
+  });
+
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Teachers', href: '/teachers' },
-  ].map((item, index) =>
+  ].map((item, index) => (
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
     </Anchor>
-  );
+  ));
 
   useObserveEffect(() => {
     let data = [...Teachers];
@@ -91,7 +98,9 @@ export default function AllTeachers() {
                 Teachers
               </Title>
             </div>
-            <Button mr={'1%'}>Add Teacher</Button>
+            <Button mr={'1%'} onClick={() => navigate('new')}>
+              Add Teacher
+            </Button>
           </Flex>
         </Grid.Col>
 
@@ -100,35 +109,54 @@ export default function AllTeachers() {
             placeholder="Search teachers..."
             icon={<IconSearch size={16} />}
             value$={state.query}
-            onChange={e => state.query.set(e.currentTarget.value)}
+            onChange={(e) => state.query.set(e.currentTarget.value)}
           />
         </Grid.Col>
       </Grid>
 
       <DataTable$
         withBorder
-        records$={state.sortedRecords}
+        // records$={getTeachersQuery.data || []}
+        records={getTeachersQuery.data.teachers || []}
+        fetching$={getTeachersQuery.isLoading}
+        idAccessor="teacherId"
         columns={[
           {
-            accessor: 'id',
-            sortable: true,
+            accessor: 'teacherId',
+            // sortable: true,
           },
           {
-            accessor: 'name',
-            sortable: true,
-          },
-          { accessor: 'class', sortable: true },
-          { accessor: 'gender', sortable: true },
-          {
-            accessor: 'subject',
-            sortable: true,
+            label: "Name",
+            accessor: 'User.name',
+            // sortable: true,
           },
           {
-            accessor: 'section',
-            sortable: true,
+            accessor: 'User.email',
+            //  sortable: true
           },
-          { accessor: 'phone', title: 'Phone Number', sortable: true },
-          { accessor: 'address', sortable: true },
+          {
+            accessor: 'gender',
+            //  sortable: true
+          },
+          // {
+          //   accessor: 'subject',
+
+          //   // sortable: true,
+          // },
+          // {
+          //   accessor: 'section',
+
+          //   // sortable: true,
+          // },
+          // {
+          //   accessor: 'phone',
+          //   title: 'Phone Number',
+          //   //  sortable: true
+          // },
+          // {
+          //   accessor: 'address',
+          //   //  sortable: true
+          // },
           {
             accessor: 'action',
             width: '10%',
@@ -157,12 +185,13 @@ export default function AllTeachers() {
             },
           },
         ]}
-        sortStatus$={state.sortStatus}
-        onSortStatusChange={state.sortStatus.set}
-        totalRecords$={state.records.length}
-        recordsPerPage={PAGE_SIZE}
-        page$={state.page}
-        onPageChange={p => state.page.set(p)}
+        // sortStatus$={state.sortStatus}
+        // onSortStatusChange={state.sortStatus.set}
+        // totalRecords$={state.records.length}
+        totalRecords$={getTeachersQuery.data.length}
+        // recordsPerPage={PAGE_SIZE}
+        // page$={state.page}
+        // onPageChange={p => state.page.set(p)}
       />
     </Container>
   );
