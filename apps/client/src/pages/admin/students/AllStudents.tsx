@@ -113,7 +113,6 @@ export default function AllTeachers() {
           />
         </Grid.Col>
       </Grid>
-      {console.log(getTeachersQuery.get())}
       <DataTable$
         withBorder
         // records$={getTeachersQuery.data || []}
