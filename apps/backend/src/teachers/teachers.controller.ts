@@ -19,7 +19,7 @@ import { UpdateTeacherDto } from './Dtos/update-teacher.DTO';
 import { TeachersService } from './teachers.service';
 
 @Controller('teachers')
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class TeachersController {
   constructor(
     private teachersService: TeachersService,
