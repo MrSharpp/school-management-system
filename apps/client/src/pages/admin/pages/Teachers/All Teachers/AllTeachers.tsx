@@ -2,74 +2,83 @@ import {
   ActionIcon,
   Box,
   Grid,
-  TextInput,
   Flex,
   Breadcrumbs,
   Title,
   Button,
   Anchor,
   Container,
+  Group,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { IconEdit, IconSearch, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-// import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash/sortBy';
+import debounce from 'lodash/debounce';
 import Teachers from './teachers.json';
+import { observable } from '@legendapp/state';
+import { observer, useObserveEffect } from '@legendapp/state/react';
+import { reactive } from '@legendapp/state/react';
+import { TextInput$, DataTable$ } from 'ui';
 
 const initialRecords = Teachers.slice(0, 100);
 const PAGE_SIZE = 10;
 
-const items = [
-  { title: 'Admin', href: '/' },
-  { title: 'Teachers', href: '/teachers' },
-].map((item, index) =>
-  <Anchor component={Link} to={item.href} key={index}>
-    {item.title}
-  </Anchor>
-);
+const state = observable({
+  records: initialRecords,
+  query: '',
+  sortStatus: {
+    columnAccessor: 'name',
+    direction: 'asc',
+  },
+  page: 1,
+  sortedRecords: Teachers.slice(0, PAGE_SIZE),
+});
+
+const debouncedQuery = observable('');
+
+const getDebounceQuery = debounce(() => {
+  debouncedQuery.set(state.query.get());
+}, 300);
+
+state.query.onChange(() => {
+  getDebounceQuery();
+});
 
 export default function AllTeachers() {
   const navigate = useNavigate();
 
-  const [records, setRecords] = useState(initialRecords);
-  const [query, setQuery] = useState('');
-  const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-    columnAccessor: 'name',
-    direction: 'asc',
-  });
-  const [page, setPage] = useState(1);
-  const [pageRecords, setPageRecords] = useState(Teachers.slice(0, PAGE_SIZE));
+  const items = [
+    { title: 'Admin', href: '/' },
+    { title: 'Teachers', href: '/teachers' },
+  ].map((item, index) => (
+    <Anchor component={Link} to={item.href} key={index}>
+      {item.title}
+    </Anchor>
+  ));
 
-  useEffect(
-    () => {
-      setRecords(
-        initialRecords.filter(({ id, name, phone }: any) => {
-          if (
-            debouncedQuery !== '' &&
-            !`${id} ${name} ${phone} `
-              .toLowerCase()
-              .includes(debouncedQuery.trim().toLowerCase())
-          ) {
-            return false;
-          }
-          return true;
-        })
+  useObserveEffect(() => {
+    let data = [...Teachers];
+
+    const query = debouncedQuery.get().trim().toLowerCase();
+
+    if (query.length) {
+      data = data.filter(({ id, name, phone }: any) =>
+        `${id} ${name} ${phone} `.toLowerCase().includes(query)
       );
+    }
 
-      // let data = sortBy(Teachers, sortStatus.columnAccessor);
-      // data = sortStatus.direction === 'desc' ? data.reverse() : data;
+    data = sortBy(data, state.sortStatus.columnAccessor.get());
+    data = state.sortStatus.direction.get() === 'desc' ? data.reverse() : data;
 
-      // const from = (page - 1) * PAGE_SIZE;
-      // const to = from + PAGE_SIZE;
+    const from = (state.page.get() - 1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE;
 
-      // setPageRecords(data.slice(from, to));
-    },
-    [debouncedQuery, page, sortStatus]
-  );
+    state.sortedRecords.set(data.slice(from, to));
+  });
 
   return (
     <Container fluid>
@@ -88,20 +97,20 @@ export default function AllTeachers() {
             <Button mr={'1%'}>Add Teacher</Button>
           </Flex>
         </Grid.Col>
-        <Grid.Col xs={2} sm={2}>
-          <TextInput
-            sx={{ flexBasis: '60%' }}
+
+        <Grid.Col xs={3} sm={3}>
+          <TextInput$
             placeholder="Search teachers..."
             icon={<IconSearch size={16} />}
-            value={query}
-            onChange={e => setQuery(e.currentTarget.value)}
+            value$={state.query}
+            onChange={(e) => state.query.set(e.currentTarget.value)}
           />
         </Grid.Col>
       </Grid>
 
-      <DataTable
+      <DataTable$
         withBorder
-        records={records}
+        records$={state.sortedRecords}
         columns={[
           {
             accessor: 'id',
@@ -142,7 +151,8 @@ export default function AllTeachers() {
                   >
                     <IconEdit size={16} />
                   </ActionIcon>
-                  <ActionIcon>
+
+                  <ActionIcon color="red">
                     <IconTrash size={16} />
                   </ActionIcon>
                 </div>
@@ -150,13 +160,15 @@ export default function AllTeachers() {
             },
           },
         ]}
-        sortStatus={sortStatus}
-        onSortStatusChange={setSortStatus}
-        totalRecords={Teachers.length}
+        sortStatus$={state.sortStatus}
+        onSortStatusChange={state.sortStatus.set}
+        totalRecords$={state.records.length}
         recordsPerPage={PAGE_SIZE}
-        page={page}
-        onPageChange={p => setPage(p)}
+        page$={state.page}
+        onPageChange={(p) => state.page.set(p)}
       />
     </Container>
   );
 }
+
+// export default AllTeachers
