@@ -126,7 +126,7 @@ export default function AllTeachers() {
             // sortable: true,
           },
           {
-            label: "Name",
+            label: 'Name',
             accessor: 'User.name',
             // sortable: true,
           },
@@ -161,7 +161,7 @@ export default function AllTeachers() {
             accessor: 'action',
             width: '10%',
             sortable: false,
-            render() {
+            render(data) {
               return (
                 <div
                   style={{
@@ -172,7 +172,11 @@ export default function AllTeachers() {
                 >
                   <ActionIcon
                     color="dark"
-                    onClick={() => navigate('patient-details')}
+                    onClick={() =>
+                      navigate(`edit/${data.peek().userId}`, {
+                        state: { data: data.peek() },
+                      })
+                    }
                   >
                     <IconEdit size={16} />
                   </ActionIcon>

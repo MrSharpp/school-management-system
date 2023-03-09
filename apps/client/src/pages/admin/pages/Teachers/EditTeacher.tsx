@@ -17,13 +17,31 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
+import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 
-import TeacherForm from '../TeacherForm';
+import TeacherForm from './TeacherForm';
 
 type IForm = z.infer<typeof AddTeachersSchema>;
 
-const AddTeacher = () => {
+const EditTeacher = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
+
+  const getTeachersQuery = useObservableQuery({
+    queryKey: [`get_teacher`, params.id],
+    queryFn: () => ApiCalls.getTeacherById(params.teacherId),
+
+    onSuccess(data) {
+        console.log(data)
+    //   form.setValues({
+    //     name: data.User.name,
+    //     email: data.User.email,
+    //     password: '',
+    //     gender: data.gender,
+    //   });
+    },
+  });
 
   const form = useForm<IForm>({
     validate: zodResolver(AddTeachersSchema),
@@ -36,8 +54,8 @@ const AddTeacher = () => {
     },
   });
 
-  const addTeacherMutation = useMutation({
-    mutationFn: ApiCalls.addTeacher,
+  const editTeacherMutation = useMutation({
+    mutationFn: ApiCalls.editTeachers,
 
     onError(error: AxiosError, variables, context) {
       notifications.show({
@@ -50,21 +68,36 @@ const AddTeacher = () => {
     onSuccess(data, variables, context) {
       notifications.show({
         title: 'Success',
-        message: 'Teacher sucessfully created',
+        message: 'Teacher sucessfully edited',
       });
 
       navigate('/teachers');
     },
   });
 
+  useEffect(() => {
+    const data = location.state?.data;
+
+    if (data) {
+      form.setValues({
+        name: data.User.name,
+        email: data.User.email,
+        password: '',
+        gender: data.gender,
+      });
+    }
+  }, [location.state]);
+
   return (
     <TeacherForm
       form={form}
-      onSubmit={(val: IForm) => addTeacherMutation.mutate(val)}
-      type="add"
-      isLoading={addTeacherMutation.isLoading}
+      onSubmit={(val: IForm) =>
+        editTeacherMutation.mutate({ data: val, id: params.id })
+      }
+      type="edit"
+      isLoading={editTeacherMutation.isLoading}
     />
   );
 };
 
-export default AddTeacher;
+export default EditTeacher;

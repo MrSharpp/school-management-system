@@ -24,6 +24,7 @@ importers:
       '@prisma/client': ^4.11.0
       '@types/express': ^4.17.13
       '@types/jest': 29.2.4
+      '@types/lodash': ^4.14.191
       '@types/node': 18.11.18
       '@types/passport-local': ^1.0.35
       '@types/supertest': ^2.0.11
@@ -76,6 +77,7 @@ importers:
       '@nestjs/testing': 9.3.9_yqmogfxzeu633isbftgaoi4ho4
       '@types/express': 4.17.17
       '@types/jest': 29.2.4
+      '@types/lodash': 4.14.191
       '@types/node': 18.11.18
       '@types/passport-local': 1.0.35
       '@types/supertest': 2.0.12

@@ -11,6 +11,9 @@ const Teachers = lazy(() =>
 const AddTeacher = lazy(
   () => import('@pages/admin/pages/Teachers/AddTeacher')
 );
+const EditTeacher = lazy(
+  () => import('@pages/admin/pages/Teachers/EditTeacher')
+);
 
 function App() {
   return (
@@ -22,6 +25,7 @@ function App() {
             
             <Route path="teachers" element={<Teachers />} />
             <Route path="teachers/new" element={<AddTeacher />} />
+            <Route path="teachers/edit/:teacherId" element={<EditTeacher />} />
 
             <Route path="students" element={<AllStudents />}  />
           </Route>
