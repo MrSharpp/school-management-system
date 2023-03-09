@@ -34,6 +34,9 @@ export class TeachersService {
       where: {
         teacherId: id,
       },
+      include: {
+        User: true,
+      },
     });
   }
 
