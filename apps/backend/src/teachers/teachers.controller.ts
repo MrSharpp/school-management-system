@@ -71,13 +71,10 @@ export class TeachersController {
       );
   }
 
-  @Delete()
-  deleteTeacher(
-    @Body() deleteTeacherSchema: DeleteTeachersDto,
-    @Res() response: Response
-  ) {
+  @Delete(':id')
+  deleteTeacher(@Param('id') id, @Res() response: Response) {
     this.teachersService
-      .deleteTeacher(deleteTeacherSchema)
+      .deleteTeacher(parseInt(id))
       .then(() =>
         response.status(200).json({ message: 'Teacher deleted Sucessfully!' })
       )

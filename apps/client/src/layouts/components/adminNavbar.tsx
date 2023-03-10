@@ -26,7 +26,6 @@ const mockdata = [
     links: [
       { label: 'All Teachers', link: '/teachers' },
       { label: 'Add New', link: '/teachers/new' },
-      { label: 'Edit Teacher', link: '/teachers/edit' },
     ],
   },
   {
@@ -35,7 +34,6 @@ const mockdata = [
     links: [
       { label: 'All Students', link: '/students' },
       { label: 'Add New', link: '/teachers/new' },
-      { label: 'Edit Student', link: '/teachers/edit' },
     ],
   },
   { label: 'Analytics', icon: IconPresentationAnalytics },

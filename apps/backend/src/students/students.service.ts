@@ -12,7 +12,6 @@ export class StudentsService {
     const { email, guardianNumber, ...student } = addStudentDto;
 
     return this.prismaService.student.create({
-      // @ts-expect-error amir theek kar
       data: {
         name: student.name,
         rollNo: student.rollNo,

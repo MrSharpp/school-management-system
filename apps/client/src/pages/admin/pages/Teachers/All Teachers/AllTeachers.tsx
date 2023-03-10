@@ -64,6 +64,8 @@ export default function AllTeachers() {
     mutationFn: ApiCalls.deleteTeacherById,
 
     onError(error: AxiosError, variables, context) {
+      console.log(error);
+
       notifications.show({
         title: 'Error',
         message: 'OOPS! an unexpected error occoured!',
@@ -72,13 +74,15 @@ export default function AllTeachers() {
     },
 
     onSuccess(data, variables, context) {
-      queryClient.setQueryData(['todos'], (old: any) =>
-        old.filter((todo: any) => todo.id !== variables.id)
+      console.log(variables);
+
+      queryClient.setQueryData(['get_teachers'], (old: any) =>
+        old.filter((teacher: any) => teacher.teacherId !== variables.id)
       );
 
       notifications.show({
         title: 'Success',
-        message: 'Sucessfully logged In!',
+        message: 'Sucessfully Deleted Teacher!',
       });
     },
   });
@@ -86,11 +90,11 @@ export default function AllTeachers() {
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Teachers', href: '/teachers' },
-  ].map((item, index) => (
+  ].map((item, index) =>
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
     </Anchor>
-  ));
+  );
 
   useObserveEffect(() => {
     let data = [...Teachers];
@@ -138,7 +142,7 @@ export default function AllTeachers() {
             placeholder="Search teachers..."
             icon={<IconSearch size={16} />}
             value$={state.query}
-            onChange={(e) => state.query.set(e.currentTarget.value)}
+            onChange={e => state.query.set(e.currentTarget.value)}
           />
         </Grid.Col>
       </Grid>
@@ -205,8 +209,7 @@ export default function AllTeachers() {
                     onClick={() =>
                       navigate(`edit/${data.peek().userId}`, {
                         state: { data: data.peek() },
-                      })
-                    }
+                      })}
                   >
                     <IconEdit size={16} />
                   </ActionIcon>
@@ -215,7 +218,7 @@ export default function AllTeachers() {
                     color="red"
                     onClick={() => {
                       deleteTeacherMutation.mutate({
-                        id: data.peek().userId,
+                        id: data.peek().teacherId,
                       });
                     }}
                   >
