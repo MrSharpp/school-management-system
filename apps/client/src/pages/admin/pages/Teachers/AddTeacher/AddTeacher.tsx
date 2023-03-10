@@ -6,21 +6,26 @@ import {
   Button,
   Stack,
   PasswordInput,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
 import { z } from 'zod';
-import AddTeachersSchema from '@schema/AddTeacherSchema';
+import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
 import { useMutation } from '@tanstack/react-query';
 import ApiCalls from '@APIService/index';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
+import { useEffect } from 'react';
+
+import TeacherForm from '../TeacherForm';
 
 type IForm = z.infer<typeof AddTeachersSchema>;
 
 const AddTeacher = () => {
   const navigate = useNavigate();
+
   const form = useForm<IForm>({
     validate: zodResolver(AddTeachersSchema),
 
@@ -29,6 +34,7 @@ const AddTeacher = () => {
       email: '',
       password: '',
       gender: 'Male',
+      phoneNo: '',
     },
   });
 
@@ -38,17 +44,17 @@ const AddTeacher = () => {
     onError(error: AxiosError, variables, context) {
       notifications.show({
         title: 'Error',
-        message: 'OOPS! an unezpected error ocoured while creating teacher',
+        message: 'OOPS! an unexpected error ocoured while creating teacher',
         color: 'red',
       });
     },
 
     onSuccess(data, variables, context) {
-      localStorage.setItem('token', data.token);
       notifications.show({
         title: 'Success',
         message: 'Teacher sucessfully created',
       });
+
       navigate('/teachers');
     },
   });
@@ -60,7 +66,10 @@ const AddTeacher = () => {
 
         <Box
           component="form"
-          onSubmit={form.onSubmit((val) => addTeacherMutation.mutate(val))}
+          onSubmit={form.onSubmit((val) => {
+            val.phoneNo = String(val.phoneNo);
+            addTeacherMutation.mutate(val);
+          })}
         >
           <Paper p="md">
             <Stack>
@@ -70,6 +79,15 @@ const AddTeacher = () => {
                 label="Name"
                 placeholder="John Doe"
                 disabled={addTeacherMutation.isLoading}
+              />
+
+              <NumberInput
+                {...form.getInputProps('phoneNo')}
+                withAsterisk
+                label="Phone Number"
+                placeholder="00000-00000"
+                disabled={addTeacherMutation.isLoading}
+                hideControls
               />
 
               <TextInput$

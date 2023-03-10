@@ -5,6 +5,7 @@ const AddTeachersSchema = z.object({
   email: z.string().email().describe('Email'),
   password: z.string().describe('Password'),
   gender: z.enum(['Male', 'Female']),
+  phoneNo: z.coerce.string(),
 });
 
 export type IAddTeacherSchema = z.infer<typeof AddTeachersSchema>;

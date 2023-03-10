@@ -1,14 +1,42 @@
-import type { IAddTeacherSchema } from '@schema/AddTeacherSchema';
+import type { IAddTeacherSchema, IUpdateTeacherSchema } from '@schema/Teachers';
+
 import { axios } from '@APIService/axios';
 
 async function addTeacher(body: IAddTeacherSchema) {
-  const data = await axios.post('/teachers', body);
-  return data.data;
+  const resp = await axios.post('/teachers', body);
+  return resp.data;
 }
 
 async function getTeachers() {
-  const data = await axios.get('/teachers');
-  return data.data;
+  const resp = await axios.get('/teachers');
+  return resp.data.teachers;
 }
 
-export { addTeacher, getTeachers };
+async function updateTeacherById({
+  id,
+  data,
+}: {
+  data: IUpdateTeacherSchema;
+  id: number | string;
+}) {
+  const resp = await axios.patch(`/teachers/${id}`, data);
+  return resp.data;
+}
+
+async function getTeacherById(id: string | number) {
+  const resp = await axios.get(`/teachers/${id}`);
+  return resp.data;
+}
+
+async function deleteTeacherById({ id }: { id: string | number }) {
+  const resp = await axios.delete(`/teachers/${id}`);
+  return resp.data;
+}
+
+export {
+  addTeacher,
+  getTeachers,
+  updateTeacherById,
+  getTeacherById,
+  deleteTeacherById,
+};

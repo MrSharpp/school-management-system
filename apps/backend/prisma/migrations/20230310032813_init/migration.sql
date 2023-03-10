@@ -22,6 +22,7 @@ CREATE TABLE "Student" (
     "name" TEXT NOT NULL,
     "email" TEXT,
     "rollNo" TEXT NOT NULL,
+    "gender" TEXT NOT NULL,
     "guardianNumber" TEXT
 );
 

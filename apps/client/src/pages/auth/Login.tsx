@@ -26,7 +26,7 @@ type IForm = z.infer<typeof LoginSchema>;
 const LoginComponent = () => {
   const navigate = useNavigate();
   const form = useForm<IForm>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(LoginSchema as any),
   });
 
   useEffect(() => {

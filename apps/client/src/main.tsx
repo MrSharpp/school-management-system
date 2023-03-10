@@ -3,11 +3,10 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { enableLegendStateReact } from '@legendapp/state/react';
 import { ThemeProvider } from 'ui';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
+import queryClient from '@APIService/queryClient';
 
 enableLegendStateReact();
-
-const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

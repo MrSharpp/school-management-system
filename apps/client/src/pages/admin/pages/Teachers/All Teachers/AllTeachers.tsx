@@ -22,6 +22,10 @@ import { observer, useObserveEffect } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
 import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 import ApiCalls from '@APIService/index';
+import { useMutation } from '@tanstack/react-query';
+import { notifications } from '@mantine/notifications';
+import { AxiosError } from 'axios';
+import queryClient from '@APIService/queryClient';
 
 const initialRecords = Teachers.slice(0, 100);
 const PAGE_SIZE = 10;
@@ -53,6 +57,30 @@ export default function AllTeachers() {
   const getTeachersQuery = useObservableQuery({
     queryKey: ['get_teachers'],
     queryFn: ApiCalls.getTeachers,
+    initialData: [],
+  });
+
+  const deleteTeacherMutation = useMutation({
+    mutationFn: ApiCalls.deleteTeacherById,
+
+    onError(error: AxiosError, variables, context) {
+      notifications.show({
+        title: 'Error',
+        message: 'OOPS! an unexpected error occoured!',
+        color: 'red',
+      });
+    },
+
+    onSuccess(data, variables, context) {
+      queryClient.setQueryData(['todos'], (old: any) =>
+        old.filter((todo: any) => todo.id !== variables.id)
+      );
+
+      notifications.show({
+        title: 'Success',
+        message: 'Sucessfully logged In!',
+      });
+    },
   });
 
   const items = [
@@ -98,6 +126,7 @@ export default function AllTeachers() {
                 Teachers
               </Title>
             </div>
+
             <Button mr={'1%'} onClick={() => navigate('new')}>
               Add Teacher
             </Button>
@@ -117,20 +146,21 @@ export default function AllTeachers() {
       <DataTable$
         withBorder
         // records$={getTeachersQuery.data || []}
-        records={getTeachersQuery.data.teachers || []}
+        records={getTeachersQuery.data}
         fetching$={getTeachersQuery.isLoading}
-        idAccessor="teacherId"
         columns={[
           {
+            title: 'ID',
             accessor: 'teacherId',
             // sortable: true,
           },
           {
-            label: "Name",
+            title: 'Name',
             accessor: 'User.name',
             // sortable: true,
           },
           {
+            title: 'Email',
             accessor: 'User.email',
             //  sortable: true
           },
@@ -161,7 +191,7 @@ export default function AllTeachers() {
             accessor: 'action',
             width: '10%',
             sortable: false,
-            render() {
+            render(data) {
               return (
                 <div
                   style={{
@@ -172,12 +202,23 @@ export default function AllTeachers() {
                 >
                   <ActionIcon
                     color="dark"
-                    onClick={() => navigate('patient-details')}
+                    onClick={() =>
+                      navigate(`edit/${data.peek().userId}`, {
+                        state: { data: data.peek() },
+                      })
+                    }
                   >
                     <IconEdit size={16} />
                   </ActionIcon>
 
-                  <ActionIcon color="red">
+                  <ActionIcon
+                    color="red"
+                    onClick={() => {
+                      deleteTeacherMutation.mutate({
+                        id: data.peek().userId,
+                      });
+                    }}
+                  >
                     <IconTrash size={16} />
                   </ActionIcon>
                 </div>
@@ -192,6 +233,7 @@ export default function AllTeachers() {
         // recordsPerPage={PAGE_SIZE}
         // page$={state.page}
         // onPageChange={p => state.page.set(p)}
+        idAccessor="userId"
       />
     </Container>
   );
