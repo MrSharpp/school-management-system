@@ -8,6 +8,8 @@ const updateTeacherDto = z.object({
       password: z.string().optional(),
       email: z.string().email().optional(),
       name: z.string().optional(),
+      phoneNo: z.string().optional(),
+      gender: z.union([z.literal('Male'), z.literal('Female')]).optional(),
     })
     .optional(),
 });

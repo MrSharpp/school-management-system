@@ -12,19 +12,19 @@ export class TeachersService {
 
   async addTeacher(teachersDto: addTeachersDTO): Promise<void> {
     const passwordHash = await bcrypt.hash(teachersDto.password, 10);
-    const user = await this.prismaService.user.create({
-      data: {
-        email: teachersDto.email,
-        password: passwordHash,
-        roll: Roles.TEACHER,
-        name: teachersDto.name,
-      },
-    });
 
     await this.prismaService.teacher.create({
       data: {
         gender: teachersDto.gender,
-        userId: user.id,
+        phoneNo: teachersDto.phoneNo,
+        User: {
+          create: {
+            email: teachersDto.email,
+            password: passwordHash,
+            roll: Roles.TEACHER,
+            name: teachersDto.name,
+          },
+        },
       },
     });
   }
@@ -33,6 +33,9 @@ export class TeachersService {
     return this.prismaService.teacher.findUnique({
       where: {
         teacherId: id,
+      },
+      include: {
+        User: true,
       },
     });
   }

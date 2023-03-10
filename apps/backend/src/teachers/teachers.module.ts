@@ -9,14 +9,6 @@ import { TeachersService } from './teachers.service';
 @Module({
   imports: [],
   controllers: [TeachersController],
-  providers: [
-    TeachersService,
-    PrismaService,
-    ErrorDescriber,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [TeachersService, PrismaService, ErrorDescriber, AuthGuard],
 })
 export class TeachersModule {}
