@@ -9,7 +9,7 @@ async function addTeacher(body: IAddTeacherSchema) {
 
 async function getTeachers() {
   const resp = await axios.get('/teachers');
-  return resp.data;
+  return resp.data.teachers;
 }
 
 async function updateTeacherById({
@@ -28,4 +28,15 @@ async function getTeacherById(id: string | number) {
   return resp.data;
 }
 
-export { addTeacher, getTeachers, updateTeacherById, getTeacherById };
+async function deleteTeacherById({ id }: { id: string | number }) {
+  const resp = await axios.delete(`/teachers/${id}`);
+  return resp.data;
+}
+
+export {
+  addTeacher,
+  getTeachers,
+  updateTeacherById,
+  getTeacherById,
+  deleteTeacherById,
+};
