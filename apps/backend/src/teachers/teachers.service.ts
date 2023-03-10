@@ -53,10 +53,16 @@ export class TeachersService {
     });
   }
 
-  deleteTeacher(deleteTeachersDto: DeleteTeachersDto) {
-    return this.prismaService.teacher.delete({
+  async deleteTeacher(teacherId: number) {
+    const teacher = await this.prismaService.teacher.delete({
       where: {
-        teacherId: deleteTeachersDto.teacherId,
+        teacherId: teacherId,
+      },
+    });
+
+    return this.prismaService.user.delete({
+      where: {
+        id: teacher.userId,
       },
     });
   }

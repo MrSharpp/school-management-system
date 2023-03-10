@@ -24,7 +24,7 @@ model Teacher {
   gender    String
   phoneNo   String
   userId    Int?   @unique
-  User      User?  @relation(fields: [userId], references: [id])
+  User      User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Student {
