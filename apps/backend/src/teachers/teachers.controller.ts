@@ -100,6 +100,9 @@ export class TeachersController {
           .status(200)
           .json({ message: 'Teacher Updated Sucessfully!', teacher })
       )
-      .catch((err) => response.status(500).json({ message: err.message }));
+      .catch((err) => {
+        console.log(err);
+        response.status(500).json({ message: 'Error while deleting teacher!' });
+      });
   }
 }

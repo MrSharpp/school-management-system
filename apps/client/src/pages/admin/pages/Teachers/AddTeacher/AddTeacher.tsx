@@ -7,6 +7,10 @@ import {
   Stack,
   PasswordInput,
   NumberInput,
+  Grid,
+  Flex,
+  Breadcrumbs,
+  Anchor,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
@@ -14,12 +18,13 @@ import { z } from 'zod';
 import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
 import { useMutation } from '@tanstack/react-query';
 import ApiCalls from '@APIService/index';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
 import TeacherForm from '../TeacherForm';
+import { IconSearch } from '@tabler/icons-react';
 
 type IForm = z.infer<typeof AddTeachersSchema>;
 
@@ -59,14 +64,38 @@ const AddTeacher = () => {
     },
   });
 
-  return (
-    <Container fluid pt={0} pl={0}>
-      <Paper p="md">
-        <Title order={3}> Add New Teacher </Title>
+  const items = [
+    { title: 'Admin', href: '/' },
+    { title: 'Teachers', href: '/teachers' },
+    { title: 'Add Teacher', href: '/teachers/new' },
+  ].map((item, index) =>
+    <Anchor component={Link} to={item.href} key={index}>
+      {item.title}
+    </Anchor>
+  );
 
+  return (
+    <Container fluid pt={0}>
+      <Grid align="center" mb="md">
+        <Grid.Col>
+          <Flex justify={'space-between'} sx={{ alignItems: 'center' }}>
+            <div>
+              <Breadcrumbs separator="/" mt="xs">
+                {items}
+              </Breadcrumbs>
+
+              <Title mt={4} color={'#495057'}>
+                Add Teacher
+              </Title>
+            </div>
+          </Flex>
+        </Grid.Col>
+      </Grid>
+
+      <Paper>
         <Box
           component="form"
-          onSubmit={form.onSubmit((val) => {
+          onSubmit={form.onSubmit(val => {
             val.phoneNo = String(val.phoneNo);
             addTeacherMutation.mutate(val);
           })}

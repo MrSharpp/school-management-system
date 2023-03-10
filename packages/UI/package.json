@@ -14,7 +14,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -22,6 +24,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mantine/hooks": "^6.0.0",
+    "@mantine/modals": "^6.0.1",
     "@mantine/notifications": "^6.0.0"
   },
   "peerDependencies": {
