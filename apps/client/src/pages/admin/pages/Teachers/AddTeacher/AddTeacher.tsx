@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   PasswordInput,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
@@ -33,6 +34,7 @@ const AddTeacher = () => {
       email: '',
       password: '',
       gender: 'Male',
+      phoneNo: '',
     },
   });
 
@@ -64,7 +66,10 @@ const AddTeacher = () => {
 
         <Box
           component="form"
-          onSubmit={form.onSubmit((val) => addTeacherMutation.mutate(val))}
+          onSubmit={form.onSubmit((val) => {
+            val.phoneNo = String(val.phoneNo);
+            addTeacherMutation.mutate(val);
+          })}
         >
           <Paper p="md">
             <Stack>
@@ -74,6 +79,15 @@ const AddTeacher = () => {
                 label="Name"
                 placeholder="John Doe"
                 disabled={addTeacherMutation.isLoading}
+              />
+
+              <NumberInput
+                {...form.getInputProps('phoneNo')}
+                withAsterisk
+                label="Phone Number"
+                placeholder="00000-00000"
+                disabled={addTeacherMutation.isLoading}
+                hideControls
               />
 
               <TextInput$

@@ -6,6 +6,7 @@ import {
   Button,
   Stack,
   PasswordInput,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
@@ -46,9 +47,16 @@ const UpdateTeacher = () => {
   const form = useForm<IForm>({
     validate: zodResolver(UpdateTeacherSchema),
 
-    initialValues: {
-      User: {},
-    },
+    // initialValues: {
+    //   gender: 'Male',
+
+    //   User: {
+    //     name: '',
+    //     email: '',
+    //     password: '',
+    //     phoneNo: '',
+    //   },
+    // },
   });
 
   const editTeacherMutation = useMutation({
@@ -82,6 +90,7 @@ const UpdateTeacher = () => {
           name: data.User.name,
           email: data.User.email,
           password: '',
+          phoneNo: data.User.phoneNo,
         },
       });
     }
@@ -94,9 +103,15 @@ const UpdateTeacher = () => {
 
         <Box
           component="form"
-          onSubmit={form.onSubmit((val) =>
-            editTeacherMutation.mutate({ data: val, id: params.teacherId as string })
-          )}
+          onSubmit={form.onSubmit((val) => {
+            if (val.User?.phoneNo)
+              val.User.phoneNo = val.User.phoneNo.toString();
+
+            editTeacherMutation.mutate({
+              data: val,
+              id: params.teacherId as string,
+            });
+          })}
         >
           <Paper p="md">
             <Stack>
@@ -106,6 +121,15 @@ const UpdateTeacher = () => {
                 label="Name"
                 placeholder="John Doe"
                 disabled={editTeacherMutation.isLoading}
+              />
+
+              <NumberInput
+                {...form.getInputProps('User.phoneNo')}
+                withAsterisk
+                label="Phone Number"
+                placeholder="00000-00000"
+                disabled={editTeacherMutation.isLoading}
+                hideControls
               />
 
               <TextInput$
