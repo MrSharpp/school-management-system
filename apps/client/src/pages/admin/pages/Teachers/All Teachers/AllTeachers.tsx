@@ -122,15 +122,17 @@ export default function AllTeachers() {
         idAccessor="teacherId"
         columns={[
           {
+            title: 'ID',
             accessor: 'teacherId',
             // sortable: true,
           },
           {
-            label: 'Name',
+            title: 'Name',
             accessor: 'User.name',
             // sortable: true,
           },
           {
+            title: 'Email',
             accessor: 'User.email',
             //  sortable: true
           },

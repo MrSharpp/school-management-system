@@ -1,4 +1,5 @@
-import type { IAddTeacherSchema } from '@schema/AddTeacherSchema';
+import type { IAddTeacherSchema, IUpdateTeacherSchema } from '@schema/Teachers';
+
 import { axios } from '@APIService/axios';
 
 async function addTeacher(body: IAddTeacherSchema) {
@@ -11,11 +12,11 @@ async function getTeachers() {
   return resp.data;
 }
 
-async function editTeachers({
+async function updateTeacherById({
   id,
   data,
 }: {
-  data: IAddTeacherSchema;
+  data: IUpdateTeacherSchema;
   id: number | string;
 }) {
   const resp = await axios.patch(`/teachers/${id}`, data);
@@ -27,4 +28,4 @@ async function getTeacherById(id: string | number) {
   return resp.data;
 }
 
-export { addTeacher, getTeachers, editTeachers, getTeacherById };
+export { addTeacher, getTeachers, updateTeacherById, getTeacherById };

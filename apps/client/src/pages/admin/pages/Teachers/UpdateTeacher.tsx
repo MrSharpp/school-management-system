@@ -10,34 +10,49 @@ import {
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
 import { z } from 'zod';
-import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
+import UpdateTeacherSchema from '@schema/Teachers/UpdateTeacherSchema';
 import { useMutation } from '@tanstack/react-query';
 import ApiCalls from '@APIService/index';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
+import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 
-import TeacherForm from '../TeacherForm';
+type IForm = z.infer<typeof UpdateTeacherSchema>;
 
-type IForm = z.infer<typeof AddTeachersSchema>;
-
-const AddTeacher = () => {
+const UpdateTeacher = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
 
-  const form = useForm<IForm>({
-    validate: zodResolver(AddTeachersSchema),
+  const getTeachersQuery = useObservableQuery({
+    queryKey: [`get_teacher`, params.teacherId],
+    queryFn: () => ApiCalls.getTeacherById(params.teacherId as string),
 
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      gender: 'Male',
+    onSuccess(data: any) {
+      console.log(data);
+      // form.setValues({
+      //   gender: data.gender,
+      //   User: {
+      //     name: data.User.name,
+      //     email: data.User.email,
+      //     password: '',
+      //   },
+      // });
     },
   });
 
-  const addTeacherMutation = useMutation({
-    mutationFn: ApiCalls.addTeacher,
+  const form = useForm<IForm>({
+    validate: zodResolver(UpdateTeacherSchema),
+
+    initialValues: {
+      User: {},
+    },
+  });
+
+  const editTeacherMutation = useMutation({
+    mutationFn: ApiCalls.updateTeacherById,
 
     onError(error: AxiosError, variables, context) {
       notifications.show({
@@ -50,46 +65,63 @@ const AddTeacher = () => {
     onSuccess(data, variables, context) {
       notifications.show({
         title: 'Success',
-        message: 'Teacher sucessfully created',
+        message: 'Teacher sucessfully edited',
       });
 
       navigate('/teachers');
     },
   });
 
+  useEffect(() => {
+    const data = location.state?.data;
+
+    if (data) {
+      form.setValues({
+        gender: data.gender,
+        User: {
+          name: data.User.name,
+          email: data.User.email,
+          password: '',
+        },
+      });
+    }
+  }, [location.state]);
+
   return (
     <Container fluid pt={0} pl={0}>
       <Paper p="md">
-        <Title order={3}> Add New Teacher </Title>
+        <Title order={3}> Edit Teacher </Title>
 
         <Box
           component="form"
-          onSubmit={form.onSubmit((val) => addTeacherMutation.mutate(val))}
+          onSubmit={form.onSubmit((val) =>
+            editTeacherMutation.mutate({ data: val, id: params.teacherId as string })
+          )}
         >
           <Paper p="md">
             <Stack>
               <TextInput$
-                {...form.getInputProps('name')}
+                {...form.getInputProps('User.name')}
                 withAsterisk
                 label="Name"
                 placeholder="John Doe"
-                disabled={addTeacherMutation.isLoading}
+                disabled={editTeacherMutation.isLoading}
               />
 
               <TextInput$
-                {...form.getInputProps('email')}
+                {...form.getInputProps('User.email')}
                 withAsterisk
                 label="Email"
                 placeholder="abc@gmail.com"
-                disabled={addTeacherMutation.isLoading}
+                disabled={editTeacherMutation.isLoading}
               />
 
               <PasswordInput
-                {...form.getInputProps('password')}
+                {...form.getInputProps('User.password')}
                 withAsterisk
                 label="Passowrd"
                 placeholder="****"
-                disabled={addTeacherMutation.isLoading}
+                disabled={editTeacherMutation.isLoading}
               />
 
               <Select$
@@ -97,14 +129,14 @@ const AddTeacher = () => {
                 withAsterisk
                 label="Gender"
                 data={['Male', 'Female']}
-                disabled={addTeacherMutation.isLoading}
+                disabled={editTeacherMutation.isLoading}
               />
             </Stack>
 
             <Button
               mt="md"
               type="submit"
-              loading={addTeacherMutation.isLoading}
+              loading={editTeacherMutation.isLoading}
             >
               Save
             </Button>
@@ -115,4 +147,4 @@ const AddTeacher = () => {
   );
 };
 
-export default AddTeacher;
+export default UpdateTeacher;

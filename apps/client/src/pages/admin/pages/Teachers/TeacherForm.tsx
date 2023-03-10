@@ -10,7 +10,7 @@ import {
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
 import { z } from 'zod';
-import AddTeachersSchema from '@schema/AddTeacherSchema';
+import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
 import { useMutation } from '@tanstack/react-query';
 import ApiCalls from '@APIService/index';
 import { useNavigate, useLocation } from 'react-router-dom';
