@@ -30,9 +30,9 @@ model Teacher {
 model Student {
   studentId      Int     @id @default(autoincrement())
   name           String
-  email          String?
-  rollNo         String
+  admissionNo    String
   gender         String
+  dob            String
   guardianNumber String?
   classes        Class[]
 }

@@ -53,6 +53,7 @@ export default function AllTeachers() {
   const getTeachersQuery = useObservableQuery({
     queryKey: ['get_students'],
     queryFn: ApiCalls.getStudents,
+    initialData: [],
   });
 
   const items = [
@@ -122,35 +123,24 @@ export default function AllTeachers() {
         columns={[
           {
             accessor: 'studentId',
-            // sortable: true,
           },
           {
             accessor: 'name',
-            // sortable: true,
           },
           {
-            accessor: 'email',
-            //  sortable: true
-          },
-          {
-            accessor: 'rollNo',
-
-            //  sortable: true
+            accessor: 'admissionNo',
           },
           {
             accessor: 'guardianNumber',
-
-            //  sortable: true
           },
           {
             accessor: 'gender',
-            //  sortable: true
           },
           {
             accessor: 'action',
             width: '10%',
             sortable: false,
-            render() {
+            render(data) {
               return (
                 <div
                   style={{
@@ -161,7 +151,10 @@ export default function AllTeachers() {
                 >
                   <ActionIcon
                     color="dark"
-                    onClick={() => navigate('patient-details')}
+                    onClick={() =>
+                      navigate(`edit/${data.peek().studentId}`, {
+                        state: { data: data.peek() },
+                      })}
                   >
                     <IconEdit size={16} />
                   </ActionIcon>

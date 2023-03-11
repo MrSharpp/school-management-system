@@ -33,7 +33,7 @@ const mockdata = [
     icon: IconCalendarStats,
     links: [
       { label: 'All Students', link: '/students' },
-      { label: 'Add New', link: '/teachers/new' },
+      { label: 'Add New', link: '/students/new' },
     ],
   },
   { label: 'Analytics', icon: IconPresentationAnalytics },

@@ -4,8 +4,10 @@ import { z } from 'nestjs-zod/z';
 const editStudentShema = z.object({
   name: z.string().optional(),
   email: z.string().email().optional(),
-  rollNo: z.string().nonempty().optional(),
-  guardianNumber: z.string().optional(),
+  admissionNo: z.string().nonempty().optional(),
+  gender: z.enum(['Male', 'Female']).optional(),
+  dob: z.string().nonempty().optional(),
+  guardianNumber: z.string().nonempty().optional(),
   classIds: z.string().array().optional(),
 });
 
