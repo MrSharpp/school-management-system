@@ -12,12 +12,13 @@ export class ClassesService {
     return this.pSerbice.class.create({
       data: {
         className: body.className,
+        section: body.section,
       },
     });
   }
 
   getClasses() {
-    return this.pSerbice.class.findMany();
+    return this.pSerbice.class.findMany({ include: { students: true } });
   }
 
   updateClass(body: EditClassSchema, id: number) {
@@ -26,7 +27,7 @@ export class ClassesService {
         classId: id,
       },
       data: {
-        className: body.className,
+        ...body,
       },
     });
   }

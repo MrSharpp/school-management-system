@@ -40,5 +40,6 @@ model Student {
 model Class {
   classId   Int       @id @default(autoincrement())
   className String
+  section   String
   students  Student[]
 }
