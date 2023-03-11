@@ -167,6 +167,15 @@ export default function AllClasses() {
                           justifyContent: 'center',
                         }}
                       >
+                        <ActionIcon
+                    color="dark"
+                    onClick={() =>
+                      navigate(`edit/${data.peek().studentId}`, {
+                        state: { data: data.peek() },
+                      })}
+                  >
+                    <IconEdit size={16} />
+                  </ActionIcon>
                         <ActionIcon color="red">
                           <IconTrash size={16} />
                         </ActionIcon>
