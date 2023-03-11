@@ -9,6 +9,7 @@ import {
   Anchor,
   Container,
   Group,
+  Text,
 } from '@mantine/core';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
@@ -26,6 +27,7 @@ import { useMutation } from '@tanstack/react-query';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import queryClient from '@APIService/queryClient';
+import { modals } from '@mantine/modals';
 
 const initialRecords = Teachers.slice(0, 100);
 const PAGE_SIZE = 10;
@@ -172,25 +174,6 @@ export default function AllTeachers() {
             accessor: 'gender',
             //  sortable: true
           },
-          // {
-          //   accessor: 'subject',
-
-          //   // sortable: true,
-          // },
-          // {
-          //   accessor: 'section',
-
-          //   // sortable: true,
-          // },
-          // {
-          //   accessor: 'phone',
-          //   title: 'Phone Number',
-          //   //  sortable: true
-          // },
-          // {
-          //   accessor: 'address',
-          //   //  sortable: true
-          // },
           {
             accessor: 'action',
             width: '10%',
@@ -207,7 +190,7 @@ export default function AllTeachers() {
                   <ActionIcon
                     color="dark"
                     onClick={() =>
-                      navigate(`edit/${data.peek().userId}`, {
+                      navigate(`edit/${data.peek().teacherId}`, {
                         state: { data: data.peek() },
                       })}
                   >
@@ -215,10 +198,26 @@ export default function AllTeachers() {
                   </ActionIcon>
 
                   <ActionIcon
-                    color="red"
+                    color="blue"
                     onClick={() => {
-                      deleteTeacherMutation.mutate({
-                        id: data.peek().teacherId,
+                      modals.openConfirmModal({
+                        title: 'Delete Teacher',
+                        centered: true,
+                        children: (
+                          <Text size="sm">
+                            Are you sure want to delete this teacher?
+                          </Text>
+                        ),
+                        labels: {
+                          confirm: 'Delete Teacher',
+                          cancel: "No don't delete it",
+                        },
+                        confirmProps: { color: 'red' },
+                        onCancel: () => console.log('Cancel'),
+                        onConfirm: () =>
+                          deleteTeacherMutation.mutate({
+                            id: data.peek().teacherId,
+                          }),
                       });
                     }}
                   >

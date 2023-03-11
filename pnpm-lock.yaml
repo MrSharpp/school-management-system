@@ -7,7 +7,7 @@ importers:
       '@nrwl/nx-cloud': latest
       nx: 15.8.5
     devDependencies:
-      '@nrwl/nx-cloud': 15.1.1
+      '@nrwl/nx-cloud': 15.2.0
       nx: 15.8.5
 
   apps/backend:
@@ -172,6 +172,7 @@ importers:
       '@legendapp/state': ^0.23.4
       '@mantine/core': ^6.0.0
       '@mantine/hooks': ^6.0.0
+      '@mantine/modals': ^6.0.1
       '@mantine/notifications': ^6.0.0
       '@types/react': ^18.0.27
       '@vitejs/plugin-react-swc': ^3.0.0
@@ -184,6 +185,7 @@ importers:
       '@emotion/react': 11.10.6_@types+react@18.0.28
       '@emotion/styled': 11.10.6_rtgl6lwupdrbo733hg3i5dx32q
       '@mantine/hooks': 6.0.0
+      '@mantine/modals': 6.0.1_6h7r5hogozvzs6k762e3zrsb7q
       '@mantine/notifications': 6.0.0_6h7r5hogozvzs6k762e3zrsb7q
     devDependencies:
       '@hookform/resolvers': 2.9.11_react-hook-form@7.43.4
@@ -1063,7 +1065,7 @@ packages:
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.43.4_react@18.2.0
+      react-hook-form: 7.43.4
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
@@ -1498,6 +1500,19 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@mantine/modals/6.0.1_6h7r5hogozvzs6k762e3zrsb7q:
+    resolution: {integrity: sha512-uMtGDI3sPygQV5VOLIuNa8Y7gmylZN82BAWy8KoCduVn5Fbby/t6ILz7OVJEp8Ob+IL9CZZYvQRtnHQ0zLjq8g==}
+    peerDependencies:
+      '@mantine/core': 6.0.1
+      '@mantine/hooks': 6.0.1
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 6.0.0_5knpow33ammhcl6rxhd4cnzcvm
+      '@mantine/hooks': 6.0.0
+      '@mantine/utils': 6.0.1
+    dev: false
+
   /@mantine/notifications/6.0.0_6h7r5hogozvzs6k762e3zrsb7q:
     resolution: {integrity: sha512-Y/hWrOyjR8lfj+oiz0CVP0cG8jCvKAEHYHJNdG13x2fxtNZrkd8FMqH2DyhcVkhByHVMWeCIZUZ7Y+W3NukAjA==}
     peerDependencies:
@@ -1580,6 +1595,12 @@ packages:
       react: '>=16.8.0'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@mantine/utils/6.0.1:
+    resolution: {integrity: sha512-uEN457ELHpKXS4qNAcL5OR9dFOjeFngWRZJVAPkLafWBJuLd2qmdLvKLgUVyt+cMVFtcjnu6rGVOite1+dtaFw==}
+    peerDependencies:
+      react: '>=16.8.0'
     dev: false
 
   /@mapbox/node-pre-gyp/1.0.10:
@@ -1897,8 +1918,8 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/nx-cloud/15.1.1:
-    resolution: {integrity: sha512-aIVb87PQpAjwdEaFksQ3rYgFq9MDaBG2KvYZcj/k+z2uWeWH84ha/opO37aCFLf5VXNiyJZGRb/+7vW7BFpNOw==}
+  /@nrwl/nx-cloud/15.2.0:
+    resolution: {integrity: sha512-Wzg4mX9Rb5pzP0yrVJzVTnHaqz59Glv740QTDux2QFErHU6nT+nvfoTCQ1B6a2lhkHxJodx+PoDy9UYRUz0IlQ==}
     hasBin: true
     dependencies:
       axios: 0.21.4
@@ -6441,7 +6462,6 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
-    dev: true
 
   /react-hook-form/7.43.4_react@18.2.0:
     resolution: {integrity: sha512-JZp05wvmuV8qr3NNDWwyhiQL05sh9E8x/2NoWtkdiyyiezmwOr5pKexlvbCEfBMa7ZYrvzk88G/uhLl47T9b7Q==}
@@ -6450,6 +6470,7 @@ packages:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
       react: 18.2.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -6636,6 +6657,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
 
   /read-cache/1.0.0:
     resolution: {integrity: sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA==}
