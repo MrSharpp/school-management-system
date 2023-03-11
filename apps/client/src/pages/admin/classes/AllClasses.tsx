@@ -43,11 +43,6 @@ interface IState {
   };
   page: number;
 
-  selectedClass: null | {
-    id: number | string;
-    sections: string[];
-    className: string;
-  };
 }
 
 const state = observable<IState>({
@@ -57,8 +52,6 @@ const state = observable<IState>({
     direction: 'asc',
   },
   page: 1,
-
-  selectedClass: null,
 });
 
 const debouncedQuery = observable('');
