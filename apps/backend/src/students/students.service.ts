@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AddStudentDTO } from './Dtos/add-student.DTO';
-import { DeleteStudentDTO } from './Dtos/delete-student.DTO';
 import { EditStudentDTO } from './Dtos/edit-student.DTO';
 
 @Injectable()
@@ -9,14 +8,13 @@ export class StudentsService {
   constructor(private prismaService: PrismaService) {}
 
   addStudent(addStudentDto: AddStudentDTO) {
-    const { email, guardianNumber, ...student } = addStudentDto;
-
     return this.prismaService.student.create({
       data: {
-        name: student.name,
-        rollNo: student.rollNo,
-        ...(guardianNumber && { guardianNumber }),
-        ...(email && { email }),
+        name: addStudentDto.name,
+        admissionNo: addStudentDto.admissionNo,
+        gender: addStudentDto.gender,
+        dob: addStudentDto.dob,
+        guardianNumber: addStudentDto.guardianNumber || null,
       },
     });
   }
@@ -30,7 +28,7 @@ export class StudentsService {
   }
 
   updateStudent(id: number, editSTudentDto: EditStudentDTO) {
-    const { classIds, ...student } = editSTudentDto;
+    const { ...student } = editSTudentDto;
     return this.prismaService.student.update({
       where: {
         studentId: id,
