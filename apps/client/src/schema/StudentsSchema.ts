@@ -7,6 +7,7 @@ const AddStudentSchema = z.object({
   dob: z.date(),
   guardianNumber: z.string().optional(),
   classId: z.string().optional(),
+  sections: z.array(z.string()),
 });
 
 const EditStudentShema = AddStudentSchema.partial();
