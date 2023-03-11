@@ -179,67 +179,7 @@ export default function AllClasses() {
           </div>
         </Grid.Col>
 
-        <Show if={state.selectedClass}>
-          <SelectedClass selectedClass={state.selectedClass} />
-        </Show>
       </Grid>
     </Container>
-  );
-}
-
-function SelectedClass({ selectedClass }: { selectedClass: any }) {
-  return (
-    <Grid.Col span={6}>
-      <Paper withBorder p="sm">
-        <Group position="apart">
-          <Title order={4}>
-            {' '}Class {selectedClass.className} Sections {' '}
-          </Title>
-
-          <ActionIcon onClick={() => selectedClass.set(null)}>
-            <IconX size={16} />
-          </ActionIcon>
-        </Group>
-
-        <TextInput$
-          my="md"
-          size="xs"
-          label="Add More Sections"
-          placeholder="Add section"
-          rightSection={
-            <ActionIcon variant="transparent">
-              <IconPlus size={16} />
-            </ActionIcon>
-          }
-        />
-
-        <Stack spacing={'xs'} mt={'md'}>
-          <For each={selectedClass.sections}>
-            {section =>
-              <UnstyledButton
-                sx={theme => ({
-                  border: `1px solid ${theme.colors.gray[3]}`,
-                  padding: `calc(${theme.spacing.xs}/2) ${theme.spacing.xs}`,
-                  paddingRight: 3,
-                  borderRadius: 3,
-
-                  '&:hover': {
-                    background: theme.colors.gray[0],
-                  },
-                })}
-              >
-                <Group position="apart">
-                  <Text size={'xs'}>
-                    Section {section}
-                  </Text>
-                  <Text size={'xs'} pr="sm">
-                    278 Students
-                  </Text>
-                </Group>
-              </UnstyledButton>}
-          </For>
-        </Stack>
-      </Paper>
-    </Grid.Col>
   );
 }
