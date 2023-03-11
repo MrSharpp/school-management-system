@@ -26,6 +26,11 @@ export class ClassesController {
     return this.classService.getClasses();
   }
 
+  @Get('students/:classId')
+  getClassSdtuents(@Param() classId) {
+    return this.classService.getClassStudents(parseInt(classId));
+  }
+
   @Patch(':id')
   updateClass(@Body() body: EditClassSchema, @Param('id') id) {
     console.log(body);

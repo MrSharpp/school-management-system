@@ -17,6 +17,17 @@ export class ClassesService {
     });
   }
 
+  getClassStudents(classId: number) {
+    return this.pSerbice.class.findMany({
+      where: {
+        classId: classId,
+      },
+      include: {
+        students: true,
+      },
+    });
+  }
+
   getClasses() {
     return this.pSerbice.class.findMany({ include: { students: true } });
   }

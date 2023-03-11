@@ -7,7 +7,10 @@ const addStudentStudents = z.object({
   gender: z.enum(['Male', 'Female']),
   dob: z.dateString(),
   guardianNumber: z.string().optional(),
-  classId: z.string().optional(),
+  classId: z
+    .string()
+    .transform((val) => parseInt(val))
+    .optional(),
 });
 
 export class AddStudentDTO extends createZodDto(addStudentStudents) {}

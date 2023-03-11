@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AddStudentDTO } from './Dtos/add-student.DTO';
 import { EditStudentDTO } from './Dtos/edit-student.DTO';
+import { Class as SchoolClass } from '@prisma/client';
 
 @Injectable()
 export class StudentsService {
   constructor(private prismaService: PrismaService) {}
 
-  addStudent(addStudentDto: AddStudentDTO) {
+  async addStudent(addStudentDto: AddStudentDTO) {
     return this.prismaService.student.create({
       data: {
         name: addStudentDto.name,
@@ -15,6 +16,13 @@ export class StudentsService {
         gender: addStudentDto.gender,
         dob: addStudentDto.dob,
         guardianNumber: addStudentDto.guardianNumber || null,
+        ...(addStudentDto.classId && {
+          classes: {
+            connect: {
+              classId: addStudentDto.classId,
+            },
+          },
+        }),
       },
     });
   }

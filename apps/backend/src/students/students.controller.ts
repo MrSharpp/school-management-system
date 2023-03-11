@@ -13,7 +13,6 @@ import { Response } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { ErrorDescriber } from 'src/shared/errors.service';
 import { AddStudentDTO } from './Dtos/add-student.DTO';
-import { DeleteStudentDTO } from './Dtos/delete-student.DTO';
 import { EditStudentDTO } from './Dtos/edit-student.DTO';
 import { StudentsService } from './students.service';
 
