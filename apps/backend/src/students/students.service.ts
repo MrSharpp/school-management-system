@@ -14,6 +14,8 @@ export class StudentsService {
         admissionNo: addStudentDto.admissionNo,
         gender: addStudentDto.gender,
         dob: addStudentDto.dob,
+        section: '',
+        classes: {},
         guardianNumber: addStudentDto.guardianNumber || null,
       },
     });

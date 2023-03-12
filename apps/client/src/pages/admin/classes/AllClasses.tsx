@@ -34,18 +34,12 @@ import { observer, useObserveEffect, Show, For } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
 import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 import ApiCalls from '@APIService/index';
+import { BreadCrumbs } from '@pages/components/BreadCrumbs';
 
-interface IState {
-  query: string;
-  sortStatus: {
-    columnAccessor: string;
-    direction: 'asc' | 'desc';
-  };
-  page: number;
+const PAGE_SIZE = 10;
 
-}
-
-const state = observable<IState>({
+const state = observable({
+  initialRecords: [],
   query: '',
   sortStatus: {
     columnAccessor: 'name',
@@ -67,29 +61,23 @@ state.query.onChange(() => {
 export default function AllClasses() {
   const navigate = useNavigate();
 
-  const items = [
-    { title: 'Admin', href: '/' },
-    { title: 'Classes', href: '/classes' },
-  ].map((item, index) =>
-    <Anchor component={Link} to={item.href} key={index}>
-      {item.title}
-    </Anchor>
-  );
+  const getClassesQuery = useObservableQuery({
+    queryKey: ['get_classes'],
+    queryFn: ApiCalls.getClasses,
+    initialData: [],
+  });
 
   return (
     <Container fluid>
       <Grid align="center" mb="md">
         <Grid.Col>
           <Flex justify={'space-between'} sx={{ alignItems: 'center' }}>
-            <div>
-              <Breadcrumbs separator="/" mt="xs">
-                {items}
-              </Breadcrumbs>
-
-              <Title mt={4} color={'#495057'}>
-                Classes
-              </Title>
-            </div>
+            <BreadCrumbs
+              path={[
+                { title: 'Admin', href: '/' },
+                { title: 'Classes', href: '/classes' },
+              ]}
+            />
             <Button mr={'1%'} onClick={() => navigate('new')}>
               Add Class
             </Button>
@@ -111,13 +99,11 @@ export default function AllClasses() {
           <div>
             <DataTable$
               withBorder
-              records={[
-                { id: 1, className: 'I', sections: ['A', 'B', 'C', 'D'], numbers: 124 },
-                { id: 2, className: 'XII', sections: ['E', 'F', 'G', 'H'], numbers: 242 },
-              ]}
+              records={getClassesQuery.data}
+              fetching$={getClassesQuery.isLoading}
               columns={[
                 {
-                  accessor: 'id',
+                  accessor: 'classId',
                 },
                 {
                   title: 'Class Name',
@@ -129,18 +115,16 @@ export default function AllClasses() {
                 },
                 {
                   title: 'Sections',
-                  accessor: 'none',
-                  render(data) {
+                  accessor: 'sections',
+                  render({sections}: {sections: any}) {
                     return (
                       <>
                       <Flex gap={'sm'}>
-                      <Badge size="md" color="teal" radius="xl" onClick={() => console.log('hello')
-                      }>
-                        Section A
-                      </Badge>
-                      <Badge  size="md" color="teal" radius="xl">
-                        Section B
-                      </Badge>
+                       
+                      {sections.get().length  && (sections.get().split(',')?.map((section:string) => <Badge  size="md" color="teal" radius="xl">
+                        {section}
+                      </Badge>))}
+
                       </Flex>
                       </>
                     );
@@ -161,14 +145,14 @@ export default function AllClasses() {
                         }}
                       >
                         <ActionIcon
-                    color="dark"
-                    onClick={() =>
-                      navigate(`edit/${data.peek().studentId}`, {
-                        state: { data: data.peek() },
-                      })}
-                  >
-                    <IconEdit size={16} />
-                  </ActionIcon>
+                          color="dark"
+                          onClick={() =>
+                            navigate(`edit/${data.peek().studentId}`, {
+                              state: { data: data.peek() },
+                            })}
+                        >
+                          <IconEdit size={16} />
+                        </ActionIcon>
                         <ActionIcon color="red">
                           <IconTrash size={16} />
                         </ActionIcon>
@@ -180,7 +164,6 @@ export default function AllClasses() {
             />
           </div>
         </Grid.Col>
-
       </Grid>
     </Container>
   );

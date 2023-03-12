@@ -12,13 +12,22 @@ export class ClassesService {
     return this.pSerbice.class.create({
       data: {
         className: body.className,
-        section: body.section,
+        sections: body.sections,
       },
     });
   }
 
   getClasses() {
     return this.pSerbice.class.findMany({ include: { students: true } });
+  }
+
+  async getStudentsByClass(classId: number, sectionName: string) {
+    return this.pSerbice.student.findMany({
+      where: {
+        classClassId: classId,
+        section: sectionName,
+      },
+    });
   }
 
   updateClass(body: EditClassSchema, id: number) {

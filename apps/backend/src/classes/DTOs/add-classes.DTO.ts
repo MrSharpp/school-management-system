@@ -3,7 +3,7 @@ import { z } from 'nestjs-zod/z';
 
 const addClassSchema = z.object({
   className: z.string(),
-  section: z.string(),
+  sections: z.array(z.string()).transform((val) => val.join(',')),
 });
 
 export class AddClassDTO extends createZodDto(addClassSchema) {}
