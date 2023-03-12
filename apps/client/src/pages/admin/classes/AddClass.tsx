@@ -19,21 +19,25 @@ import {
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$, DateInput$ } from 'ui';
-import { z } from 'zod';
-import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
 import { useMutation } from '@tanstack/react-query';
 import ApiCalls from '@APIService/index';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
-import { useEffect } from 'react';
-import { addStudentSchema, IAddStudentSchema } from '@schema/StudentsSchema';
 import { BreadCrumbs } from '@pages/components/BreadCrumbs';
 import { IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { For } from '@legendapp/state/react';
 import { observable } from '@legendapp/state';
+import { addClassSchema, IAddClassType } from '@APIService/classes';
+import { z } from 'zod';
+import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
 
-const state = observable({
+type IAddClass = {
+  sections: string[];
+  sectionName: string;
+};
+
+const state = observable<IAddClass>({
   sections: [],
   sectionName: '',
 });
@@ -41,21 +45,22 @@ const state = observable({
 const AddClass = () => {
   const navigate = useNavigate();
 
-  const form = useForm<IAddStudentSchema>({
-    validate: zodResolver(addStudentSchema),
+  interface IAddClassForm extends z.infer<typeof addClassSchema> {
+    sectionName: string;
+  }
+
+  const form = useForm<IAddClassForm>({
+    validate: zodResolver(addClassSchema),
 
     initialValues: {
-      name: '',
-      admissionNo: '',
-      dob: new Date(),
-      guardianNumber: '',
-      gender: 'Male',
+      className: '',
       sections: [],
+      sectionName: '',
     },
   });
 
-  const addStudentMutation = useMutation({
-    mutationFn: ApiCalls.addStudent,
+  const addClassMutation = useMutation({
+    mutationFn: ApiCalls.addClass,
 
     onError(error: AxiosError, variables, context) {
       notifications.show({
@@ -71,7 +76,7 @@ const AddClass = () => {
         message: 'Student sucessfully created',
       });
 
-      navigate('/students');
+      navigate('/classes');
     },
   });
 
@@ -89,8 +94,8 @@ const AddClass = () => {
         <Box
           component="form"
           onSubmit={form.onSubmit(val => {
-            val.guardianNumber = String(val.guardianNumber);
-            addStudentMutation.mutate(val);
+            val.sections = state.sections.peek();
+            addClassMutation.mutate({ body: val });
           })}
         >
           <Paper p="md">
@@ -100,7 +105,7 @@ const AddClass = () => {
                 withAsterisk
                 label="Class Name"
                 placeholder="Kindergarden"
-                disabled={addStudentMutation.isLoading}
+                disabled={addClassMutation.isLoading}
               />
 
               <Flex direction={'column'}>
@@ -112,7 +117,11 @@ const AddClass = () => {
                     <ActionIcon
                       variant="transparent"
                       onClick={e => {
-                        if (state.sections.includes(form.values.sectionName))
+                        if (
+                          state.sections
+                            .peek()
+                            .includes(form.values.sectionName)
+                        )
                           return form.setFieldError(
                             'sectionName',
                             'Section Already Exists'
@@ -145,11 +154,7 @@ const AddClass = () => {
               </Flex>
             </Stack>
 
-            <Button
-              mt="md"
-              type="submit"
-              loading={addStudentMutation.isLoading}
-            >
+            <Button mt="md" type="submit" loading={addClassMutation.isLoading}>
               Save
             </Button>
           </Paper>

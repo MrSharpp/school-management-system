@@ -34,12 +34,14 @@ model Student {
   gender         String
   dob            String
   guardianNumber String?
-  classes        Class[]
+  section        String
+  classes        Class?  @relation(fields: [classClassId], references: [classId])
+  classClassId   Int?
 }
 
 model Class {
   classId   Int       @id @default(autoincrement())
   className String
-  section   String
+  sections  String
   students  Student[]
 }

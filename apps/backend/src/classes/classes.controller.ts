@@ -26,6 +26,14 @@ export class ClassesController {
     return this.classService.getClasses();
   }
 
+  @Get('students/:classId/:sectionName')
+  getStudentsBySecitonName(
+    @Param('classId') classId,
+    @Param('sectionName') sectionName
+  ) {
+    return this.classService.getStudentsByClass(parseInt(classId), sectionName);
+  }
+
   @Patch(':id')
   updateClass(@Body() body: EditClassSchema, @Param('id') id) {
     console.log(body);
