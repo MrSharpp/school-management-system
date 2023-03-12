@@ -1,3 +1,4 @@
+import AddClass from '@pages/admin/classes/AddClass';
 import AddStudent from '@pages/admin/Students/AddStudent';
 import AllStudents from '@pages/admin/Students/AllStudents';
 import EditStudent from '@pages/admin/Students/EditStudent';
@@ -7,12 +8,12 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 const Admin = lazy(() => import('@pages/admin/index'));
 const LoginPage = lazy(() => import('@pages/auth/Login'));
 const Dashboard = lazy(() => import('@pages/admin/pages/dashboard'));
-const Teachers = lazy(
-  () => import('@pages/admin/pages/Teachers/All Teachers/AllTeachers')
+const Teachers = lazy(() =>
+  import('@pages/admin/pages/Teachers/All Teachers/AllTeachers')
 );
 const AddTeacher = lazy(() => import('@pages/admin/pages/Teachers/AddTeacher'));
-const UpdateTeacher = lazy(
-  () => import('@pages/admin/pages/Teachers/UpdateTeacher')
+const UpdateTeacher = lazy(() =>
+  import('@pages/admin/pages/Teachers/UpdateTeacher')
 );
 
 const AllClasses = lazy(() => import('@pages/admin/classes/AllClasses'));
@@ -39,6 +40,7 @@ function App() {
 
             <Route path="classes" element={<Outlet />}>
               <Route index element={<AllClasses />} />
+              <Route path="new" element={<AddClass />} />
             </Route>
           </Route>
 

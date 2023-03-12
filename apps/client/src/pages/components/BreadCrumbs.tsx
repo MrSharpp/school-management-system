@@ -20,7 +20,7 @@ const BreadCrumbs = ({ path }: { path: { title: string; href: string }[] }) => {
             </Breadcrumbs>
 
             <Title mt={4} color={'#495057'}>
-              {path[1].title}
+              {path[path.length - 1].title}
             </Title>
           </div>
         </Flex>
