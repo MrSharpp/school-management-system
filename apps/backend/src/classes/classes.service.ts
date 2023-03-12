@@ -36,7 +36,8 @@ export class ClassesService {
         classId: id,
       },
       data: {
-        ...body,
+        className: body.className,
+        sections: body.sections.join(','),
       },
     });
   }

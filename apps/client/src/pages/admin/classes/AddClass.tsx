@@ -34,12 +34,10 @@ import AddTeachersSchema from '@schema/Teachers/AddTeacherSchema';
 
 type IAddClass = {
   sections: string[];
-  sectionName: string;
 };
 
 const state = observable<IAddClass>({
   sections: [],
-  sectionName: '',
 });
 
 const AddClass = () => {

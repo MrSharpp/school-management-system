@@ -1,4 +1,5 @@
 import AddClass from '@pages/admin/classes/AddClass';
+import EditClass from '@pages/admin/classes/EditClass';
 import AddStudent from '@pages/admin/Students/AddStudent';
 import AllStudents from '@pages/admin/Students/AllStudents';
 import EditStudent from '@pages/admin/Students/EditStudent';
@@ -41,6 +42,7 @@ function App() {
             <Route path="classes" element={<Outlet />}>
               <Route index element={<AllClasses />} />
               <Route path="new" element={<AddClass />} />
+              <Route path="edit/:classId" element={<EditClass />} />
             </Route>
           </Route>
 
