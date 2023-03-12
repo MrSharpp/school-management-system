@@ -4,6 +4,7 @@ import {
   Flex,
   Button,
   Container,
+  Text,
   Badge,
 } from '@mantine/core';
 import {
@@ -18,6 +19,11 @@ import { TextInput$, DataTable$ } from 'ui';
 import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 import ApiCalls from '@APIService/index';
 import { BreadCrumbs } from '@pages/components/BreadCrumbs';
+import {modals} from '@mantine/modals'
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import {notifications} from '@mantine/notifications'
+import queryClient from '@APIService/queryClient';
 
 const PAGE_SIZE = 10;
 
@@ -49,6 +55,33 @@ export default function AllClasses() {
     queryFn: ApiCalls.getClasses,
     initialData: [],
   });
+
+  const deleteClassMutation = useMutation({
+    mutationFn: ApiCalls.deleteClass,
+
+    onError(error: AxiosError, variables, context) {
+      console.log(error);
+
+      notifications.show({
+        title: 'Error',
+        message: 'OOPS! an unexpected error occoured!',
+        color: 'red',
+      });
+    },
+
+    onSuccess(data, variables, context) {
+      console.log(variables);
+
+      queryClient.setQueryData(['get_classes'], (old: any) =>
+        old.filter((teacher: any) => teacher.classId !== variables.id)
+      );
+
+      notifications.show({
+        title: 'Success',
+        message: 'Sucessfully Deleted Teacher!',
+      });
+    },
+  })
 
   return (
     <Container fluid>
@@ -136,7 +169,27 @@ export default function AllClasses() {
                         >
                           <IconEdit size={16} />
                         </ActionIcon>
-                        <ActionIcon color="red">
+                        <ActionIcon color="red" onClick={() => {
+                      modals.openConfirmModal({
+                        title: 'Delete Teacher',
+                        centered: true,
+                        children: (
+                          <Text size="sm">
+                            Are you sure want to delete this teacher?
+                          </Text>
+                        ),
+                        labels: {
+                          confirm: 'Delete Teacher',
+                          cancel: "No don't delete it",
+                        },
+                        confirmProps: { color: 'red' },
+                        onCancel: () => console.log('Cancel'),
+                        onConfirm: () =>
+                        deleteClassMutation.mutate({
+                            id: data.peek().classId,
+                          }),
+                      });
+                    }}>
                           <IconTrash size={16} />
                         </ActionIcon>
                       </div>

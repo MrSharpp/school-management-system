@@ -51,10 +51,10 @@ function getStudentsById({
   return axios.get(`/classes/${classId}/${sectionName}`).then(res => res.data);
 }
 
-function deleteStudent({ id }: { id: number }) {
+async function deleteClass({ id }: { id: string | number }) {
   return axios.delete(`/classes/${id}`).then(res => res.data);
 }
 
-export { getClasses, addClass, editClass, getStudentsById, deleteStudent };
+export { getClasses, addClass, editClass, getStudentsById, deleteClass };
 export { addClassSchema, editClassSchema };
 export type { IAddClassType, IEditClassSchema };
