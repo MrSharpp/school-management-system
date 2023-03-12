@@ -2,7 +2,7 @@ import { axios } from '@APIService/axios';
 import { z } from 'zod';
 
 const addClassSchema = z.object({
-  className: z.string(),
+  className: z.string().nonempty(),
   sections: z.array(z.string()),
 });
 
@@ -12,7 +12,7 @@ const deleteClassSchema = z.object({
 
 const editClassSchema = z.object({
   className: z.string().optional(),
-  sections: z.array(z.string()).optional(),
+  sections: z.array(z.string()),
 });
 
 type IAddClassType = z.infer<typeof addClassSchema>;
@@ -36,6 +36,8 @@ function editClass({
   body: IEditClassSchema;
   id: number | string;
 }) {
+  console.log(body, id);
+  
   return axios.patch(`/classes/${id}`, body).then(res => res.data);
 }
 

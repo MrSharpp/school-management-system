@@ -1,36 +1,19 @@
 import {
   ActionIcon,
-  Box,
   Grid,
   Flex,
-  Breadcrumbs,
-  Title,
   Button,
-  Anchor,
   Container,
-  Group,
-  Paper,
-  Stack,
-  UnstyledButton,
-  Text,
-  Indicator,
   Badge,
 } from '@mantine/core';
-import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import {
   IconEdit,
   IconSearch,
   IconTrash,
-  IconPlus,
-  IconEye,
-  IconX,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import { observable } from '@legendapp/state';
-import { observer, useObserveEffect, Show, For } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
 import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 import ApiCalls from '@APIService/index';
@@ -147,7 +130,7 @@ export default function AllClasses() {
                         <ActionIcon
                           color="dark"
                           onClick={() =>
-                            navigate(`edit/${data.peek().studentId}`, {
+                            navigate(`edit/${data.peek().classId}`, {
                               state: { data: data.peek() },
                             })}
                         >
