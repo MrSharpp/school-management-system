@@ -73,7 +73,7 @@ export default function AllClasses() {
       console.log(variables);
 
       queryClient.setQueryData(['get_classes'], (old: any) =>
-        old.filter((teacher: any) => teacher.classId !== variables.id)
+        old.filter((classObj: any) => classObj.classId !== variables.id)
       );
 
       notifications.show({
