@@ -9,16 +9,26 @@ import {
   Anchor,
   Container,
   Group,
+  Paper,
+  Stack,
+  UnstyledButton,
+  Text,
 } from '@mantine/core';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
+import {
+  IconEdit,
+  IconSearch,
+  IconTrash,
+  IconPlus,
+  IconX,
+} from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
 import Teachers from './students.json';
 import { observable } from '@legendapp/state';
-import { observer, useObserveEffect } from '@legendapp/state/react';
+import { For, observer, Show, useObserveEffect } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
 import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 import ApiCalls from '@APIService/index';
@@ -35,6 +45,7 @@ const state = observable({
   },
   page: 1,
   sortedRecords: Teachers.slice(0, PAGE_SIZE),
+  selectedStudent: '',
 });
 
 const debouncedQuery = observable('');
@@ -114,69 +125,119 @@ export default function AllTeachers() {
           />
         </Grid.Col>
       </Grid>
-      <DataTable$
-        withBorder
-        // records$={getTeachersQuery.data || []}
-        records={getTeachersQuery.data || []}
-        fetching$={getTeachersQuery.isLoading}
-        idAccessor="teacherId"
-        columns={[
-          {
-            accessor: 'studentId',
-          },
-          {
-            accessor: 'name',
-          },
-          {
-            accessor: 'admissionNo',
-          },
-          {
-            accessor: 'guardianNumber',
-          },
-          {
-            accessor: 'gender',
-          },
-          {
-            accessor: 'action',
-            width: '10%',
-            sortable: false,
-            render(data) {
-              return (
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: 10,
-                    justifyContent: 'center',
-                  }}
-                >
-                  <ActionIcon
-                    color="dark"
-                    onClick={() =>
-                      navigate(`edit/${data.peek().studentId}`, {
-                        state: { data: data.peek() },
-                      })}
-                  >
-                    <IconEdit size={16} />
-                  </ActionIcon>
 
-                  <ActionIcon color="red">
-                    <IconTrash size={16} />
-                  </ActionIcon>
-                </div>
-              );
-            },
-          },
-        ]}
-        // sortStatus$={state.sortStatus}
-        // onSortStatusChange={state.sortStatus.set}
-        // totalRecords$={state.records.length}
-        totalRecords$={getTeachersQuery.data.length}
-        // recordsPerPage={PAGE_SIZE}
-        // page$={state.page}
-        // onPageChange={p => state.page.set(p)}
-      />
+      <Grid>
+        <Grid.Col span={'auto'}>
+          <DataTable$
+            withBorder
+            highlightOnHover
+            onRowClick={data => state.selectedStudent.set(data)}
+            records={getTeachersQuery.data || []}
+            fetching$={getTeachersQuery.isLoading}
+            idAccessor="teacherId"
+            columns={[
+              {
+                accessor: 'studentId',
+              },
+              {
+                accessor: 'name',
+              },
+              {
+                accessor: 'admissionNo',
+              },
+              {
+                accessor: 'guardianNumber',
+              },
+              {
+                accessor: 'gender',
+              },
+              {
+                accessor: 'action',
+                width: '10%',
+                sortable: false,
+                render(data) {
+                  return (
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: 10,
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <ActionIcon
+                        color="dark"
+                        onClick={() =>
+                          navigate(`edit/${data.peek().studentId}`, {
+                            state: { data: data.peek() },
+                          })}
+                      >
+                        <IconEdit size={16} />
+                      </ActionIcon>
+
+                      <ActionIcon color="red">
+                        <IconTrash size={16} />
+                      </ActionIcon>
+                    </div>
+                  );
+                },
+              },
+            ]}
+            totalRecords$={getTeachersQuery.data.length}
+          />
+        </Grid.Col>
+        <Show if={state.selectedStudent}>
+          <Grid.Col span={6}>
+            <SelectedStudent selectedStudent={state.selectedStudent} />
+          </Grid.Col>
+        </Show>
+      </Grid>
     </Container>
   );
 }
 
-// export default AllTeachers
+function SelectedStudent({ selectedStudent }: { selectedStudent: any }) {
+  return (
+    <>
+    <Title order={4} color="#495057" mb={10}>
+      {' '}{selectedStudent.name} Detaills
+    </Title>
+    <Paper withBorder p="md">
+
+<Flex>
+    <div><Stack spacing={'xs'}>
+          <Record label={'Name'} value={selectedStudent.name} />
+          <Record
+            label={'Admission Number'}
+            value={selectedStudent.admissionNo} />
+          <Record label={'Gender'} value={selectedStudent.gender} />
+          <Record
+            label={'Guardian Number'}
+            value={selectedStudent.guardianNumber} />
+        </Stack></div>
+
+        <ActionIcon onClick={() => selectedStudent.set(null)} style={{marginLeft: 'auto'}}>
+        <IconX size={16} />
+      </ActionIcon>
+</Flex>
+      </Paper></>
+  );
+}
+
+function Record({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <Title order={6} weight={500} style={{ lineHeight: 1.2 }} mb={0}>
+        {label}
+      </Title>
+      <Title
+        order={5}
+        weight={400}
+        style={{ lineHeight: 1.2 }}
+        mt={0}
+        color={'#808080'}
+      >
+        {value}
+      </Title>
+    </div>
+  );
+}
