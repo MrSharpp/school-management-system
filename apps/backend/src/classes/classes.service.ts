@@ -42,10 +42,10 @@ export class ClassesService {
     });
   }
 
-  deleteClass(body: DeleteClassSchema) {
+  deleteClass(id: number) {
     return this.pSerbice.class.delete({
       where: {
-        classId: body.classId,
+        classId: id,
       },
     });
   }

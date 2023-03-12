@@ -41,8 +41,8 @@ export class ClassesController {
     return this.classService.updateClass(body, parseInt(id));
   }
 
-  @Delete()
-  deleteClass(@Body() body: DeleteClassSchema) {
-    return this.classService.deleteClass(body);
+  @Delete(':classId')
+  deleteClass(@Param('classId') id) {
+    return this.classService.deleteClass(parseInt(id));
   }
 }
