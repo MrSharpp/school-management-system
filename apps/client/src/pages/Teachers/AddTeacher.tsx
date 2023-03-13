@@ -10,7 +10,7 @@ import {
   Grid,
   Flex,
   Breadcrumbs,
-  Anchor,
+  Anchor
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
@@ -23,7 +23,6 @@ import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 
-import TeacherForm from '../TeacherForm';
 import { IconSearch } from '@tabler/icons-react';
 
 type IForm = z.infer<typeof AddTeachersSchema>;
@@ -39,8 +38,8 @@ const AddTeacher = () => {
       email: '',
       password: '',
       gender: 'Male',
-      phoneNo: '',
-    },
+      phoneNo: ''
+    }
   });
 
   const addTeacherMutation = useMutation({
@@ -50,24 +49,24 @@ const AddTeacher = () => {
       notifications.show({
         title: 'Error',
         message: 'OOPS! an unexpected error ocoured while creating teacher',
-        color: 'red',
+        color: 'red'
       });
     },
 
     onSuccess(data, variables, context) {
       notifications.show({
         title: 'Success',
-        message: 'Teacher sucessfully created',
+        message: 'Teacher sucessfully created'
       });
 
       navigate('/teachers');
-    },
+    }
   });
 
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Teachers', href: '/teachers' },
-    { title: 'Add Teacher', href: '/teachers/new' },
+    { title: 'Add Teacher', href: '/teachers/new' }
   ].map((item, index) =>
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}

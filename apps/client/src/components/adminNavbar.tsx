@@ -13,8 +13,8 @@ import {
   IconAdjustments,
   IconLock,
 } from '@tabler/icons-react';
-import { UserButton } from '@pages/components/UserButton';
-import { LinksGroup } from '@pages/components/NavLinks';
+import { UserButton } from '@components/UserButton';
+import { LinksGroup } from '@components/NavLinks';
 // import { Logo } from './Logo';
 
 const mockdata = [

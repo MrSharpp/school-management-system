@@ -58,7 +58,7 @@ state.query.onChange(() => {
   getDebounceQuery();
 });
 
-export default function AllTeachers() {
+export  function AllStudents() {
   const navigate = useNavigate();
 
   const getTeachersQuery = useObservableQuery({
