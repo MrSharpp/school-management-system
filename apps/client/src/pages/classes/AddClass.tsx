@@ -15,7 +15,7 @@ import {
   Text,
   UnstyledButton,
   ActionIcon,
-  Badge,
+  Badge
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$, DateInput$ } from 'ui';
@@ -24,7 +24,7 @@ import ApiCalls from '@APIService/index';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
-import { BreadCrumbs } from '@pages/components/BreadCrumbs';
+import { BreadCrumbs } from '@components/BreadCrumbs';
 import { IconPlus, IconTrash, IconX } from '@tabler/icons-react';
 import { For } from '@legendapp/state/react';
 import { observable } from '@legendapp/state';
@@ -37,7 +37,7 @@ type IAddClass = {
 };
 
 const state = observable<IAddClass>({
-  sections: [],
+  sections: []
 });
 
 const AddClass = () => {
@@ -53,8 +53,8 @@ const AddClass = () => {
     initialValues: {
       className: '',
       sections: [],
-      sectionName: '',
-    },
+      sectionName: ''
+    }
   });
 
   const addClassMutation = useMutation({
@@ -64,18 +64,18 @@ const AddClass = () => {
       notifications.show({
         title: 'Error',
         message: 'OOPS! an unexpected error ocoured while creating student',
-        color: 'red',
+        color: 'red'
       });
     },
 
     onSuccess(data, variables, context) {
       notifications.show({
         title: 'Success',
-        message: 'Student sucessfully created',
+        message: 'Student sucessfully created'
       });
 
       navigate('/classes');
-    },
+    }
   });
 
   return (
@@ -84,7 +84,7 @@ const AddClass = () => {
         path={[
           { title: 'Admin', href: '/' },
           { title: 'Classes', href: '/classes' },
-          { title: 'Add Class', href: 'javascript::void' },
+          { title: 'Add Class', href: 'javascript::void' }
         ]}
       />
 
