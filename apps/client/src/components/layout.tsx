@@ -1,8 +1,8 @@
 import { AppShell, Container, Header } from '@mantine/core';
-import { AdminNavbar } from '@layouts/components/adminNavbar';
+import { AdminNavbar } from '@components/adminNavbar';
 import { Suspense, useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import AdminHeader from '@layouts/components/AdminHeader';
+import AdminHeader from '@components/AdminHeader';
 
 function DefaultAdmin() {
   const navigate = useNavigate();
@@ -28,9 +28,8 @@ function DefaultAdmin() {
       })}
     >
       <Suspense fallback="Loading...">
-        <Container fluid pl={'sm'} pt="sm" p="xl" >
-
-        <Outlet />
+        <Container fluid pl={'sm'} pt="sm" p="xl">
+          <Outlet />
         </Container>
       </Suspense>
     </AppShell>

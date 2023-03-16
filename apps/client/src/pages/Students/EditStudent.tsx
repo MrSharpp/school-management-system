@@ -19,7 +19,7 @@ import {
   import { AxiosError } from 'axios';
   import { useEffect } from 'react';
   import {IEditStudentSchema, editStudentShema} from '@schema/StudentsSchema'
-  import { BreadCrumbs } from '@pages/components/BreadCrumbs';
+  import { BreadCrumbs } from '@components/BreadCrumbs';
   import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
   
   

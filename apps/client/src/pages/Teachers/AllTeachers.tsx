@@ -9,7 +9,7 @@ import {
   Anchor,
   Container,
   Group,
-  Text,
+  Text
 } from '@mantine/core';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { IconEdit, IconSearch, IconTrash, IconPlus } from '@tabler/icons-react';
@@ -17,7 +17,6 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import sortBy from 'lodash/sortBy';
 import debounce from 'lodash/debounce';
-import Teachers from './teachers.json';
 import { observable } from '@legendapp/state';
 import { observer, useObserveEffect } from '@legendapp/state/react';
 import { TextInput$, DataTable$ } from 'ui';
@@ -29,18 +28,17 @@ import { AxiosError } from 'axios';
 import queryClient from '@APIService/queryClient';
 import { modals } from '@mantine/modals';
 
-const initialRecords = Teachers.slice(0, 100);
 const PAGE_SIZE = 10;
 
 const state = observable({
-  records: initialRecords,
+  records: [],
   query: '',
   sortStatus: {
     columnAccessor: 'name',
-    direction: 'asc',
+    direction: 'asc'
   },
   page: 1,
-  sortedRecords: Teachers.slice(0, PAGE_SIZE),
+  sortedRecords: []
 });
 
 const debouncedQuery = observable('');
@@ -59,7 +57,7 @@ export default function AllTeachers() {
   const getTeachersQuery = useObservableQuery({
     queryKey: ['get_teachers'],
     queryFn: ApiCalls.getTeachers,
-    initialData: [],
+    initialData: []
   });
 
   const deleteTeacherMutation = useMutation({
@@ -71,7 +69,7 @@ export default function AllTeachers() {
       notifications.show({
         title: 'Error',
         message: 'OOPS! an unexpected error occoured!',
-        color: 'red',
+        color: 'red'
       });
     },
 
@@ -84,14 +82,14 @@ export default function AllTeachers() {
 
       notifications.show({
         title: 'Success',
-        message: 'Sucessfully Deleted Teacher!',
+        message: 'Sucessfully Deleted Teacher!'
       });
-    },
+    }
   });
 
   const items = [
     { title: 'Admin', href: '/' },
-    { title: 'Teachers', href: '/teachers' },
+    { title: 'Teachers', href: '/teachers' }
   ].map((item, index) =>
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
@@ -99,7 +97,7 @@ export default function AllTeachers() {
   );
 
   useObserveEffect(() => {
-    let data = [...Teachers];
+    let data = [];
 
     const query = debouncedQuery.get().trim().toLowerCase();
 
@@ -157,21 +155,21 @@ export default function AllTeachers() {
         columns={[
           {
             title: 'ID',
-            accessor: 'teacherId',
+            accessor: 'teacherId'
             // sortable: true,
           },
           {
             title: 'Name',
-            accessor: 'User.name',
+            accessor: 'User.name'
             // sortable: true,
           },
           {
             title: 'Email',
-            accessor: 'User.email',
+            accessor: 'User.email'
             //  sortable: true
           },
           {
-            accessor: 'gender',
+            accessor: 'gender'
             //  sortable: true
           },
           {
@@ -184,14 +182,14 @@ export default function AllTeachers() {
                   style={{
                     display: 'flex',
                     gap: 10,
-                    justifyContent: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <ActionIcon
                     color="dark"
                     onClick={() =>
                       navigate(`edit/${data.peek().teacherId}`, {
-                        state: { data: data.peek() },
+                        state: { data: data.peek() }
                       })}
                   >
                     <IconEdit size={16} />
@@ -210,14 +208,14 @@ export default function AllTeachers() {
                         ),
                         labels: {
                           confirm: 'Delete Teacher',
-                          cancel: "No don't delete it",
+                          cancel: "No don't delete it"
                         },
                         confirmProps: { color: 'red' },
                         onCancel: () => console.log('Cancel'),
                         onConfirm: () =>
                           deleteTeacherMutation.mutate({
-                            id: data.peek().teacherId,
-                          }),
+                            id: data.peek().teacherId
+                          })
                       });
                     }}
                   >
@@ -225,8 +223,8 @@ export default function AllTeachers() {
                   </ActionIcon>
                 </div>
               );
-            },
-          },
+            }
+          }
         ]}
         // sortStatus$={state.sortStatus}
         // onSortStatusChange={state.sortStatus.set}

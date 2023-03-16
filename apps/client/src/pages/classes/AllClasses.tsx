@@ -18,7 +18,7 @@ import { observable } from '@legendapp/state';
 import { TextInput$, DataTable$ } from 'ui';
 import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
 import ApiCalls from '@APIService/index';
-import { BreadCrumbs } from '@pages/components/BreadCrumbs';
+import { BreadCrumbs } from '@components/BreadCrumbs';
 import {modals} from '@mantine/modals'
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';

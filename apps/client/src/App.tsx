@@ -1,23 +1,19 @@
-import AddClass from '@pages/admin/classes/AddClass';
-import EditClass from '@pages/admin/classes/EditClass';
-import AddStudent from '@pages/admin/Students/AddStudent';
-import AllStudents from '@pages/admin/Students/AllStudents';
-import EditStudent from '@pages/admin/Students/EditStudent';
+import AddClass from '@pages/classes/AddClass';
+import EditClass from '@pages/classes/EditClass';
+import AddStudent from '@pages/Students/AddStudent';
+import { AllStudents } from '@pages/Students/AllStudents';
+import EditStudent from '@pages/Students/EditStudent';
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
-const Admin = lazy(() => import('@pages/admin/index'));
+const Admin = lazy(() => import('@pages/index'));
 const LoginPage = lazy(() => import('@pages/auth/Login'));
-const Dashboard = lazy(() => import('@pages/admin/pages/dashboard'));
-const Teachers = lazy(() =>
-  import('@pages/admin/pages/Teachers/All Teachers/AllTeachers')
-);
-const AddTeacher = lazy(() => import('@pages/admin/pages/Teachers/AddTeacher'));
-const UpdateTeacher = lazy(() =>
-  import('@pages/admin/pages/Teachers/UpdateTeacher')
-);
+const Dashboard = lazy(() => import('@pages/dashboard'));
+const Teachers = lazy(() => import('@pages/Teachers/AllTeachers'));
+const AddTeacher = lazy(() => import('@pages/Teachers/AddTeacher'));
+const UpdateTeacher = lazy(() => import('@pages/Teachers/UpdateTeacher'));
 
-const AllClasses = lazy(() => import('@pages/admin/classes/AllClasses'));
+const AllClasses = lazy(() => import('@pages/classes/AllClasses'));
 
 function App() {
   return (
