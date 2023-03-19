@@ -188,6 +188,13 @@ const AddTeacher = () => {
                 placeholder="Enter Username"
                 disabled={addTeacherMutation.isLoading}
               />
+              <TextInput$
+                {...form.getInputProps('email')}
+                withAsterisk
+                label="Email"
+                placeholder="Enter Email"
+                disabled={addTeacherMutation.isLoading}
+              />
 
               <PasswordInput
                 {...form.getInputProps('password')}
