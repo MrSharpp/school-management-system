@@ -3,6 +3,7 @@ import EditClass from '@pages/classes/EditClass';
 import AddStudent from '@pages/Students/AddStudent';
 import { AllStudents } from '@pages/Students/AllStudents';
 import EditStudent from '@pages/Students/EditStudent';
+import SingleStudent from '@pages/Students/SingleStudent';
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
@@ -31,6 +32,7 @@ function App() {
 
             <Route path="students" element={<Outlet />}>
               <Route index element={<AllStudents />} />
+              <Route path=":studentId" element={<SingleStudent />} />
               <Route path="new" element={<AddStudent />} />
               <Route path="edit/:studentId" element={<EditStudent />} />
             </Route>
