@@ -28,6 +28,8 @@ import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { addStudentSchema, IAddStudentSchema } from '@schema/StudentsSchema';
+import { observable } from '@legendapp/state';
+import { StudentForm } from './StudentForm';
 
 const SingleStudent = () => {
   const navigate = useNavigate();
@@ -68,7 +70,7 @@ const SingleStudent = () => {
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Students', href: '/students' },
-    { title: 'Add Student', href: '/students/new' },
+    { title: 'Detail', href: '#' },
   ].map((item, index) =>
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
@@ -95,136 +97,12 @@ const SingleStudent = () => {
         </Grid.Col>
       </Grid>
 
-      <Box
-        component="form"
-        onSubmit={form.onSubmit(val => {
-          val.guardianNumber = String(val.guardianNumber);
-          addStudentMutation.mutate(val);
-        })}
-      >
-        <Grid>
-          <Grid.Col span={3}>
-            <Paper
-              radius="md"
-              withBorder
-              p="lg"
-              sx={theme => ({
-                backgroundColor:
-                  theme.colorScheme === 'dark'
-                    ? theme.colors.dark[8]
-                    : theme.white,
-              })}
-            >
-              <Avatar size={250} radius={120} mx="auto" />
-              <FileInput
-                mt={'xl'}
-                placeholder="Student Image"
-                withAsterisk
-                {...form.getInputProps('photo')}
-                variant={'filled'}
-                disabled
-              />
-            </Paper>
-          </Grid.Col>
-          <Grid.Col span={9}>
-            <Paper p="md" shadow={'xs'}>
-              <Title color={'#343A40'} order={4} mb="sm">
-                Required Informations
-              </Title>
-              <Divider my="sm" />
-              <SimpleGrid cols={3}>
-                <TextInput$
-                  {...form.getInputProps('name')}
-                  withAsterisk
-                  label="Student Name"
-                  placeholder="John Doe"
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <TextInput$
-                  {...form.getInputProps('admissionNo')}
-                  withAsterisk
-                  label="Admission Number"
-                  placeholder="Number"
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <DateInput$
-                  {...form.getInputProps('dob')}
-                  withAsterisk
-                  label="Date Of Birth"
-                  placeholder="Date"
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <TextInput$
-                  {...form.getInputProps('guardianNumber')}
-                  withAsterisk
-                  label="Guardian Number"
-                  placeholder="Phone Number"
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <Select$
-                  {...form.getInputProps('gender')}
-                  withAsterisk
-                  label="Gender"
-                  data={['Male', 'Female']}
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <TextInput$
-                  {...form.getInputProps('fatherName')}
-                  withAsterisk
-                  label="Father Name"
-                  placeholder="Father Name"
-                  variant={'filled'}
-                  disabled={true}
-                />
-              </SimpleGrid>
-            </Paper>
-            <Paper p="md" mt={'md'} shadow="xs">
-              <Title color={'#343A40'} order={4} mb="sm">
-                Optional Informations
-              </Title>
-              <Divider my="sm" />
-              <SimpleGrid cols={3}>
-                <TextInput$
-                  {...form.getInputProps('relegion')}
-                  withAsterisk
-                  label="Relegion"
-                  placeholder="Relegion"
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <TextInput$
-                  {...form.getInputProps('cast')}
-                  withAsterisk
-                  label="Cast"
-                  placeholder="cast"
-                  disabled={true}
-                  variant={'filled'}
-                />
-
-                <TextInput$
-                  {...form.getInputProps('fatherName')}
-                  withAsterisk
-                  label="Father Name"
-                  placeholder="Father Name"
-                  disabled={true}
-                  variant={'filled'}
-                />
-              </SimpleGrid>
-            </Paper>
-          </Grid.Col>
-        </Grid>
-      </Box>
+      <StudentForm
+        form={form}
+        onSubmit={form.onSubmit(() => console.log('hello'))}
+        type={'view'}
+        isLoading={true}
+      />
     </Container>
   );
 };

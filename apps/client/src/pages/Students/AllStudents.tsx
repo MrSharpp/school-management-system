@@ -45,7 +45,6 @@ const state = observable({
   },
   page: 1,
   sortedRecords: Teachers.slice(0, PAGE_SIZE),
-  selectedStudent: '',
 });
 
 const debouncedQuery = observable('');
@@ -58,7 +57,7 @@ state.query.onChange(() => {
   getDebounceQuery();
 });
 
-export  function AllStudents() {
+export function AllStudents() {
   const navigate = useNavigate();
 
   const getTeachersQuery = useObservableQuery({
@@ -131,10 +130,10 @@ export  function AllStudents() {
           <DataTable$
             withBorder
             highlightOnHover
-            onRowClick={data => state.selectedStudent.set(data)}
+            onRowClick={data => navigate(`${data.studentId}`)}
             records={getTeachersQuery.data || []}
             fetching$={getTeachersQuery.isLoading}
-            idAccessor="teacherId"
+            idAccessor="studentId"
             columns={[
               {
                 accessor: 'studentId',
@@ -166,10 +165,16 @@ export  function AllStudents() {
                     >
                       <ActionIcon
                         color="dark"
-                        onClick={() =>
+                        onClick={e => {
+                          console.log('click');
+
+                          e.preventDefault();
+                          e.stopPropagation();
+
                           navigate(`edit/${data.peek().studentId}`, {
                             state: { data: data.peek() },
-                          })}
+                          });
+                        }}
                       >
                         <IconEdit size={16} />
                       </ActionIcon>
@@ -185,41 +190,8 @@ export  function AllStudents() {
             totalRecords$={getTeachersQuery.data.length}
           />
         </Grid.Col>
-        <Show if={state.selectedStudent}>
-          <Grid.Col span={6}>
-            <SelectedStudent selectedStudent={state.selectedStudent} />
-          </Grid.Col>
-        </Show>
       </Grid>
     </Container>
-  );
-}
-
-function SelectedStudent({ selectedStudent }: { selectedStudent: any }) {
-  return (
-    <>
-    <Title order={4} color="#495057" mb={10}>
-      {' '}{selectedStudent.name} Detaills
-    </Title>
-    <Paper withBorder p="md">
-
-<Flex>
-    <div><Stack spacing={'xs'}>
-          <Record label={'Name'} value={selectedStudent.name} />
-          <Record
-            label={'Admission Number'}
-            value={selectedStudent.admissionNo} />
-          <Record label={'Gender'} value={selectedStudent.gender} />
-          <Record
-            label={'Guardian Number'}
-            value={selectedStudent.guardianNumber} />
-        </Stack></div>
-
-        <ActionIcon onClick={() => selectedStudent.set(null)} style={{marginLeft: 'auto'}}>
-        <IconX size={16} />
-      </ActionIcon>
-</Flex>
-      </Paper></>
   );
 }
 
