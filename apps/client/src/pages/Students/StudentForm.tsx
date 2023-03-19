@@ -15,7 +15,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
   return (
     <Box component="form" onSubmit={onSubmit}>
       <Grid>
-        <Grid.Col span={2}>
+        <Grid.Col span={'auto'}>
           <Paper
             radius="md"
             withBorder
@@ -27,7 +27,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
                   : theme.white,
             })}
           >
-            <Avatar size={200} radius={120} mx="auto" />
+            <Avatar size={'xl * 2'} radius={'md'} mx="auto" />
             <FileInput
               mt={'xl'}
               placeholder="Student Image"
@@ -36,7 +36,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
             />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={10}>
+        <Grid.Col span={9}>
           <Paper p="md" shadow={'xs'}>
             <Title color={'#343A40'} order={4} mb="sm">
               Required Informations
