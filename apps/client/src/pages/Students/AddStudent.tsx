@@ -213,10 +213,8 @@ const AddStudent = () => {
             </Paper>
           </Grid.Col>
         </Grid>
-
         <Button
           ml={'auto'}
-          mt="md"
           type="submit"
           loading={addStudentMutation.isLoading}
         >
