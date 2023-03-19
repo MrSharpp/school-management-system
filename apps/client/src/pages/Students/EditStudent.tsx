@@ -1,15 +1,9 @@
 import {
-    Paper,
     Container,
-    Title,
-    Box,
-    Button,
-    Stack,
-    PasswordInput,
-    NumberInput,
+    Grid,
   } from '@mantine/core';
   import { useForm, zodResolver } from '@mantine/form';
-  import { TextInput$, Select$ } from 'ui';
+  import { TextInput$, Select$, DateInput$ } from 'ui';
   import { z } from 'zod';
   import UpdateTeacherSchema from '@schema/Teachers/UpdateTeacherSchema';
   import { useMutation } from '@tanstack/react-query';
@@ -21,6 +15,7 @@ import {
   import {IEditStudentSchema, editStudentShema} from '@schema/StudentsSchema'
   import { BreadCrumbs } from '@components/BreadCrumbs';
   import { useObservableQuery } from '@legendapp/state/react-hooks/useObservableQuery';
+import { StudentForm } from './StudentForm';
   
   
   const EditStudent = () => {
@@ -67,64 +62,22 @@ import {
     }, [location.state]);
   
     return (
-      <Container fluid pt={0} pl={'sm'}>
-            <BreadCrumbs path={[{title: 'Students', href: '/students'},{title: 'Edit Student', href: '/students/edit'}]}/>
-        <Paper p="md">
-          <Box
-            component="form"
-            onSubmit={form.onSubmit((val) => {
-                editStudentMutation.mutate({
-                data: val,
-                id: params.studentId as string,
-              });
-            })}
-          >
-            <Stack>
-              <TextInput$
-                {...form.getInputProps('name')}
-                withAsterisk
-                label="Name"
-                placeholder="John Doe"
-                disabled={editStudentMutation.isLoading}
-              />
+      <Container fluid pt={0}>
+      <Grid align="center" mb="md">
+        <Grid.Col>
+          <BreadCrumbs path={[  { title: 'Admin', href: '/' },
+    { title: 'Students', href: '/students' },
+    { title: 'Edit Student', href: '/students/edit' }]}/>
+        </Grid.Col>
+      </Grid>
 
-                <TextInput$
-                {...form.getInputProps('admissionNo')}
-                withAsterisk
-                label="Admission Number"
-                placeholder="John Doe"
-                disabled={editStudentMutation.isLoading}
-              />
-
-                <Select$
-                {...form.getInputProps('gender')}
-                withAsterisk
-                label="Gender"
-                placeholder="Gender"
-                data={['Male', 'Female']}
-                disabled={editStudentMutation.isLoading}
-              />
-
-            <TextInput$
-                {...form.getInputProps('guardianNumber')}
-                withAsterisk
-                label="Guardian Number"
-                placeholder="John Doe"
-                disabled={editStudentMutation.isLoading}
-              />
-
-            </Stack>
-
-            <Button
-              mt="md"
-              type="submit"
-              loading={editStudentMutation.isLoading}
-            >
-              Save
-            </Button>
-          </Box>
-        </Paper>
-      </Container>
+      <StudentForm
+        form={form}
+        onSubmit={form.onSubmit(() => console.log('hello'))}
+        type={undefined}
+        isLoading={editStudentMutation.isLoading}
+      />
+    </Container>
     );
   };
   

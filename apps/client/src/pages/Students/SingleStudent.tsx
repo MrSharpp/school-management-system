@@ -28,9 +28,10 @@ import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { addStudentSchema, IAddStudentSchema } from '@schema/StudentsSchema';
+import { observable } from '@legendapp/state';
 import { StudentForm } from './StudentForm';
 
-const AddStudent = () => {
+const SingleStudent = () => {
   const navigate = useNavigate();
 
   const form = useForm<Omit<IAddStudentSchema, 'sections'>>({
@@ -69,7 +70,7 @@ const AddStudent = () => {
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Students', href: '/students' },
-    { title: 'Add Student', href: '/students/new' },
+    { title: 'Detail', href: '#' },
   ].map((item, index) =>
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
@@ -89,7 +90,7 @@ const AddStudent = () => {
               </Breadcrumbs>
 
               <Title mt={4} color={'#495057'}>
-                Add Student
+                Student Detail
               </Title>
             </div>
           </Flex>
@@ -99,11 +100,11 @@ const AddStudent = () => {
       <StudentForm
         form={form}
         onSubmit={form.onSubmit(() => console.log('hello'))}
-        type={undefined}
-        isLoading={addStudentMutation.isLoading}
+        type={'view'}
+        isLoading={true}
       />
     </Container>
   );
 };
 
-export default AddStudent;
+export default SingleStudent;
