@@ -133,7 +133,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
           loading={isLoading}
           style={{ display: 'block' }}
         >
-          {type == 'add' ? 'Add' : 'Edit'} Student
+          {type == 'add' ? 'Add' : 'Save'} Student
         </Button>}
     </Box>
   );
