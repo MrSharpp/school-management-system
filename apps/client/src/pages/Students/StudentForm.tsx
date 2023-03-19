@@ -27,7 +27,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
                   : theme.white,
             })}
           >
-            <Avatar size={'xl * 2'} radius={'md'} mx="auto" />
+            <Avatar size={'xl * 2'} radius={'md * 2'} mx="auto" />
             <FileInput
               mt={'xl'}
               placeholder="Student Image"
