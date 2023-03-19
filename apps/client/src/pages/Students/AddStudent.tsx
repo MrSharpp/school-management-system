@@ -11,6 +11,11 @@ import {
   Flex,
   Breadcrumbs,
   Anchor,
+  SimpleGrid,
+  FileInput,
+  Avatar,
+  Text,
+  Divider,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$, DateInput$ } from 'ui';
@@ -27,8 +32,8 @@ import { addStudentSchema, IAddStudentSchema } from '@schema/StudentsSchema';
 const AddStudent = () => {
   const navigate = useNavigate();
 
-  const form = useForm<IAddStudentSchema>({
-    validate: zodResolver(addStudentSchema),
+  const form = useForm<Omit<IAddStudentSchema, 'sections'>>({
+    validate: zodResolver(addStudentSchema.partial({ sections: true })),
 
     initialValues: {
       name: '',
@@ -70,6 +75,8 @@ const AddStudent = () => {
     </Anchor>
   );
 
+  console.log(form.errors);
+
   return (
     <Container fluid pt={0}>
       <Grid align="center" mb="md">
@@ -88,67 +95,134 @@ const AddStudent = () => {
         </Grid.Col>
       </Grid>
 
-      <Paper>
-        <Box
-          component="form"
-          onSubmit={form.onSubmit(val => {
-            val.guardianNumber = String(val.guardianNumber);
-            addStudentMutation.mutate(val);
-          })}
-        >
-          <Paper p="md">
-            <Stack>
-              <TextInput$
-                {...form.getInputProps('name')}
-                withAsterisk
-                label="Student Name"
-                placeholder="John Doe"
-                disabled={addStudentMutation.isLoading}
-              />
-
-              <TextInput$
-                {...form.getInputProps('admissionNo')}
-                withAsterisk
-                label="Admission Number"
-                placeholder="Number"
-                disabled={addStudentMutation.isLoading}
-              />
-
-              <DateInput$
-                {...form.getInputProps('dob')}
-                withAsterisk
-                label="Date Of Birth"
-                placeholder="Date"
-                disabled={addStudentMutation.isLoading}
-              />
-
-              <TextInput$
-                {...form.getInputProps('guardianNumber')}
-                withAsterisk
-                label="Guardian Number"
-                placeholder="Phone Number"
-                disabled={addStudentMutation.isLoading}
-              />
-
-              <Select$
-                {...form.getInputProps('gender')}
-                withAsterisk
-                label="Gender"
-                data={['Male', 'Female']}
-                disabled={addStudentMutation.isLoading}
-              />
-            </Stack>
-
-            <Button
-              mt="md"
-              type="submit"
-              loading={addStudentMutation.isLoading}
+      <Box
+        component="form"
+        onSubmit={form.onSubmit(val => {
+          val.guardianNumber = String(val.guardianNumber);
+          addStudentMutation.mutate(val);
+        })}
+      >
+        <Grid>
+          <Grid.Col span={3}>
+            <Paper
+              radius="md"
+              withBorder
+              p="lg"
+              sx={theme => ({
+                backgroundColor:
+                  theme.colorScheme === 'dark'
+                    ? theme.colors.dark[8]
+                    : theme.white,
+              })}
             >
-              Save
-            </Button>
-          </Paper>
-        </Box>
-      </Paper>
+              <Avatar size={250} radius={120} mx="auto" />
+              <FileInput
+                mt={'xl'}
+                placeholder="Student Image"
+                withAsterisk
+                {...form.getInputProps('photo')}
+              />
+            </Paper>
+          </Grid.Col>
+          <Grid.Col span={9}>
+            <Paper p="md" shadow={'xs'}>
+              <Title color={'#343A40'} order={4} mb="sm">
+                Required Informations
+              </Title>
+              <Divider my="sm" />
+              <SimpleGrid cols={3}>
+                <TextInput$
+                  {...form.getInputProps('name')}
+                  withAsterisk
+                  label="Student Name"
+                  placeholder="John Doe"
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <TextInput$
+                  {...form.getInputProps('admissionNo')}
+                  withAsterisk
+                  label="Admission Number"
+                  placeholder="Number"
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <DateInput$
+                  {...form.getInputProps('dob')}
+                  withAsterisk
+                  label="Date Of Birth"
+                  placeholder="Date"
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <TextInput$
+                  {...form.getInputProps('guardianNumber')}
+                  withAsterisk
+                  label="Guardian Number"
+                  placeholder="Phone Number"
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <Select$
+                  {...form.getInputProps('gender')}
+                  withAsterisk
+                  label="Gender"
+                  data={['Male', 'Female']}
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <TextInput$
+                  {...form.getInputProps('fatherName')}
+                  withAsterisk
+                  label="Father Name"
+                  placeholder="Father Name"
+                  disabled={addStudentMutation.isLoading}
+                />
+              </SimpleGrid>
+            </Paper>
+            <Paper p="md" mt={'md'} shadow="xs">
+              <Title color={'#343A40'} order={4} mb="sm">
+                Optional Informations
+              </Title>
+              <Divider my="sm" />
+              <SimpleGrid cols={3}>
+                <TextInput$
+                  {...form.getInputProps('relegion')}
+                  withAsterisk
+                  label="Relegion"
+                  placeholder="Relegion"
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <TextInput$
+                  {...form.getInputProps('cast')}
+                  withAsterisk
+                  label="Cast"
+                  placeholder="cast"
+                  disabled={addStudentMutation.isLoading}
+                />
+
+                <TextInput$
+                  {...form.getInputProps('fatherName')}
+                  withAsterisk
+                  label="Father Name"
+                  placeholder="Father Name"
+                  disabled={addStudentMutation.isLoading}
+                />
+              </SimpleGrid>
+            </Paper>
+          </Grid.Col>
+        </Grid>
+
+        <Button
+          ml={'auto'}
+          mt="md"
+          type="submit"
+          loading={addStudentMutation.isLoading}
+        >
+          Add Student
+        </Button>
+      </Box>
     </Container>
   );
 };
