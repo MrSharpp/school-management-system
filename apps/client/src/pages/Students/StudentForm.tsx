@@ -29,7 +29,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
           >
             <Avatar size={'xl * 2'} radius={'md * 2'} mx="auto" />
             <FileInput
-              mt={'xl'}
+              mt={'md'}
               placeholder="Student Image"
               withAsterisk
               {...form.getInputProps('photo')}
