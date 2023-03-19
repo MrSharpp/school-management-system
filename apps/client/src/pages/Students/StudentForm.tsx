@@ -126,7 +126,13 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
         </Grid.Col>
       </Grid>
       {type != 'view' &&
-        <Button ml={'auto'} type="submit" loading={isLoading}>
+        <Button
+          ml={'auto'}
+          mt="md"
+          type="submit"
+          loading={isLoading}
+          style={{ display: 'block' }}
+        >
           {type == 'add' ? 'Add' : 'Edit'} Student
         </Button>}
     </Box>
