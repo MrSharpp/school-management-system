@@ -20,7 +20,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
             radius="md"
             withBorder
             p="lg"
-            sx={theme => ({
+            sx={(theme) => ({
               backgroundColor:
                 theme.colorScheme === 'dark'
                   ? theme.colors.dark[8]
@@ -39,7 +39,7 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
         <Grid.Col span={10}>
           <Paper p="md" shadow={'xs'}>
             <Title color={'#343A40'} order={4} mb="sm">
-              Required Informations
+              Required Information
             </Title>
             <Divider my="sm" />
             <SimpleGrid cols={3}>
@@ -94,15 +94,15 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
           </Paper>
           <Paper p="md" mt={'md'} shadow="xs">
             <Title color={'#343A40'} order={4} mb="sm">
-              Optional Informations
+              Optional Information
             </Title>
             <Divider my="sm" />
             <SimpleGrid cols={3}>
               <TextInput$
-                {...form.getInputProps('relegion')}
+                {...form.getInputProps('religion')}
                 withAsterisk
-                label="Relegion"
-                placeholder="Relegion"
+                label="Religion"
+                placeholder="Religion"
                 disabled={isLoading}
               />
 
@@ -125,10 +125,11 @@ export const StudentForm = ({ form, onSubmit, type, isLoading }) => {
           </Paper>
         </Grid.Col>
       </Grid>
-      {type != 'view' &&
+      {type != 'view' && (
         <Button ml={'auto'} type="submit" loading={isLoading}>
           {type == 'add' ? 'Add' : 'Edit'} Student
-        </Button>}
+        </Button>
+      )}
     </Box>
   );
 };

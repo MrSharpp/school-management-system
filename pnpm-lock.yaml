@@ -7,7 +7,7 @@ importers:
       '@nrwl/nx-cloud': latest
       nx: 15.8.5
     devDependencies:
-      '@nrwl/nx-cloud': 15.2.1
+      '@nrwl/nx-cloud': 15.2.3
       nx: 15.8.5
 
   apps/backend:
@@ -104,6 +104,7 @@ importers:
       '@iconscout/react-unicons': ^2.0.0
       '@legendapp/state': ^0.23.4
       '@mantine/core': ^6.0.0
+      '@mantine/dates': ^6.0.1
       '@mantine/ds': ^6.0.0
       '@mantine/form': ^6.0.1
       '@mantine/hooks': ^6.0.0
@@ -137,6 +138,7 @@ importers:
       '@iconscout/react-unicons': 2.0.0_react@18.2.0
       '@legendapp/state': 0.23.4_fzttb3lrkfqghprguwhot7fira
       '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
+      '@mantine/dates': 6.0.1_ncvgvj24f77yz23u7neymwb32i
       '@mantine/ds': 6.0.0_cu37ofrtph5hdru3e5njoudczq
       '@mantine/form': 6.0.1_react@18.2.0
       '@mantine/hooks': 6.0.0_react@18.2.0
@@ -1475,6 +1477,21 @@ packages:
       '@mantine/utils': 6.0.1
     dev: false
 
+  /@mantine/dates/6.0.1_ncvgvj24f77yz23u7neymwb32i:
+    resolution: {integrity: sha512-ZoKrlEN0YF96Jxr7bFSwZtYm+OSWdc/x8MHFaVmqsN4xkW0WFdv9WyWPLYW+GCeSrw5jcj+XC3dWEY2g/RCacw==}
+    peerDependencies:
+      '@mantine/core': 6.0.1
+      '@mantine/hooks': 6.0.1
+      dayjs: '>=1.0.0'
+      react: '>=16.8.0'
+    dependencies:
+      '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
+      '@mantine/hooks': 6.0.0_react@18.2.0
+      '@mantine/utils': 6.0.1_react@18.2.0
+      dayjs: 1.11.7
+      react: 18.2.0
+    dev: false
+
   /@mantine/ds/6.0.0_cu37ofrtph5hdru3e5njoudczq:
     resolution: {integrity: sha512-ZYsmtcIulQCq7xRmzl2gUevwc3Veu4pghdv6TyLBkE4AGLBSRrfha2sFpCJoPlohRNEYTqK5TsljSatcN/mq6g==}
     peerDependencies:
@@ -1958,8 +1975,8 @@ packages:
       - debug
     dev: true
 
-  /@nrwl/nx-cloud/15.2.1:
-    resolution: {integrity: sha512-T4ycGSx77TdvS0j6tKI/6zmh6YtsPHyfB2li+wDR+BW9wjGGqOTX1QvG3gf0k2enhA3dxLgYnmeDZoEUek6MOw==}
+  /@nrwl/nx-cloud/15.2.3:
+    resolution: {integrity: sha512-odbLJVhANnjXhUvHOeKGfMeK6hrC8poa/y1p6Wj1E5K8xbECMlz/kUWYjcbkEFcSCGyjCednDZCirhT9oy3RVQ==}
     hasBin: true
     dependencies:
       axios: 0.21.4

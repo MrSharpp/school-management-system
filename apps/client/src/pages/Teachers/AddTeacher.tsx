@@ -4,14 +4,16 @@ import {
   Title,
   Box,
   Button,
-  Stack,
   PasswordInput,
   NumberInput,
   Grid,
   Flex,
   Breadcrumbs,
-  Anchor
+  Anchor,
+  SimpleGrid,
+  Text,
 } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useForm, zodResolver } from '@mantine/form';
 import { TextInput$, Select$ } from 'ui';
 import { z } from 'zod';
@@ -21,14 +23,13 @@ import ApiCalls from '@APIService/index';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
-import { useEffect } from 'react';
-
-import { IconSearch } from '@tabler/icons-react';
+import { useState } from 'react';
 
 type IForm = z.infer<typeof AddTeachersSchema>;
 
 const AddTeacher = () => {
   const navigate = useNavigate();
+  const [value, setValue] = useState<Date | null>(null);
 
   const form = useForm<IForm>({
     validate: zodResolver(AddTeachersSchema),
@@ -38,8 +39,8 @@ const AddTeacher = () => {
       email: '',
       password: '',
       gender: 'Male',
-      phoneNo: ''
-    }
+      phoneNo: '',
+    },
   });
 
   const addTeacherMutation = useMutation({
@@ -49,29 +50,29 @@ const AddTeacher = () => {
       notifications.show({
         title: 'Error',
         message: 'OOPS! an unexpected error ocoured while creating teacher',
-        color: 'red'
+        color: 'red',
       });
     },
 
     onSuccess(data, variables, context) {
       notifications.show({
         title: 'Success',
-        message: 'Teacher sucessfully created'
+        message: 'Teacher sucessfully created',
       });
 
       navigate('/teachers');
-    }
+    },
   });
 
   const items = [
     { title: 'Admin', href: '/' },
     { title: 'Teachers', href: '/teachers' },
-    { title: 'Add Teacher', href: '/teachers/new' }
-  ].map((item, index) =>
+    { title: 'Add Teacher', href: '/teachers/new' },
+  ].map((item, index) => (
     <Anchor component={Link} to={item.href} key={index}>
       {item.title}
     </Anchor>
-  );
+  ));
 
   return (
     <Container fluid pt={0}>
@@ -94,43 +95,29 @@ const AddTeacher = () => {
       <Paper>
         <Box
           component="form"
-          onSubmit={form.onSubmit(val => {
+          onSubmit={form.onSubmit((val) => {
             val.phoneNo = String(val.phoneNo);
             addTeacherMutation.mutate(val);
           })}
         >
           <Paper p="md">
-            <Stack>
+            <Text fw={600} size={20} mb={20}>
+              Basic Details
+            </Text>
+            <SimpleGrid cols={3}>
+              <TextInput$
+                {...form.getInputProps('TeachersId')}
+                withAsterisk
+                label="Teacher ID"
+                placeholder="Enter Teacher ID"
+                disabled={addTeacherMutation.isLoading}
+              />
+
               <TextInput$
                 {...form.getInputProps('name')}
                 withAsterisk
                 label="Name"
-                placeholder="John Doe"
-                disabled={addTeacherMutation.isLoading}
-              />
-
-              <NumberInput
-                {...form.getInputProps('phoneNo')}
-                withAsterisk
-                label="Phone Number"
-                placeholder="00000-00000"
-                disabled={addTeacherMutation.isLoading}
-                hideControls
-              />
-
-              <TextInput$
-                {...form.getInputProps('email')}
-                withAsterisk
-                label="Email"
-                placeholder="abc@gmail.com"
-                disabled={addTeacherMutation.isLoading}
-              />
-
-              <PasswordInput
-                {...form.getInputProps('password')}
-                withAsterisk
-                label="Passowrd"
-                placeholder="****"
+                placeholder="Enter Name"
                 disabled={addTeacherMutation.isLoading}
               />
 
@@ -138,13 +125,143 @@ const AddTeacher = () => {
                 {...form.getInputProps('gender')}
                 withAsterisk
                 label="Gender"
+                placeholder="Choose Gender"
                 data={['Male', 'Female']}
                 disabled={addTeacherMutation.isLoading}
               />
-            </Stack>
+
+              <DateInput
+                sx={{ width: '100%' }}
+                value={value}
+                onChange={setValue}
+                label="Date 0f Birth"
+                placeholder="Enter or Select date"
+                maw={400}
+                mx="auto"
+              />
+
+              <NumberInput
+                {...form.getInputProps('phoneNo')}
+                withAsterisk
+                label="Mobile"
+                placeholder="Enter Mobile"
+                disabled={addTeacherMutation.isLoading}
+                hideControls
+              />
+
+              <DateInput
+                sx={{ width: '100%' }}
+                value={value}
+                onChange={setValue}
+                label="Joining date"
+                placeholder="Enter or Select date"
+                maw={400}
+                mx="auto"
+              />
+
+              <PasswordInput
+                {...form.getInputProps('qualifications')}
+                withAsterisk
+                label="Qualification"
+                placeholder="Enter your Qualifications"
+                disabled={addTeacherMutation.isLoading}
+              />
+
+              <TextInput$
+                {...form.getInputProps('experience')}
+                withAsterisk
+                label="Experience"
+                placeholder="Enter Experience"
+                disabled={addTeacherMutation.isLoading}
+              />
+            </SimpleGrid>
+
+            <Text fw={600} size={20} mt={20} mb={20}>
+              Login Details
+            </Text>
+
+            <SimpleGrid cols={3}>
+              <TextInput$
+                {...form.getInputProps('username')}
+                withAsterisk
+                label="Username"
+                placeholder="Enter Username"
+                disabled={addTeacherMutation.isLoading}
+              />
+              <TextInput$
+                {...form.getInputProps('email')}
+                withAsterisk
+                label="Email"
+                placeholder="Enter Email"
+                disabled={addTeacherMutation.isLoading}
+              />
+
+              <PasswordInput
+                {...form.getInputProps('password')}
+                withAsterisk
+                label="Password"
+                placeholder="Enter Password"
+                disabled={addTeacherMutation.isLoading}
+              />
+
+              <PasswordInput
+                {...form.getInputProps('repeat-password')}
+                withAsterisk
+                label="Repeat Password"
+                placeholder="Repeat Password"
+                disabled={addTeacherMutation.isLoading}
+              />
+            </SimpleGrid>
+
+            <Text fw={600} size={20} mt={20} mb={20}>
+              Address Details
+            </Text>
+
+            <TextInput$
+              {...form.getInputProps('address')}
+              withAsterisk
+              label="Address"
+              placeholder="Enter Address"
+              disabled={addTeacherMutation.isLoading}
+            />
+
+            <SimpleGrid cols={3}>
+              <TextInput$
+                {...form.getInputProps('city')}
+                withAsterisk
+                label="City"
+                placeholder="Enter City"
+                disabled={addTeacherMutation.isLoading}
+              />
+
+              <TextInput$
+                {...form.getInputProps('state')}
+                withAsterisk
+                label="State"
+                placeholder="Enter State"
+                disabled={addTeacherMutation.isLoading}
+              />
+
+              <NumberInput
+                {...form.getInputProps('zip-code')}
+                withAsterisk
+                label="Zip Code"
+                placeholder="Enter Zip"
+                disabled={addTeacherMutation.isLoading}
+                hideControls
+              />
+
+              <TextInput$
+                {...form.getInputProps('country')}
+                withAsterisk
+                label="Country"
+                placeholder="Enter Country"
+                disabled={addTeacherMutation.isLoading}
+              />
+            </SimpleGrid>
 
             <Button
-              mt="md"
+              mt="xl"
               type="submit"
               loading={addTeacherMutation.isLoading}
             >
