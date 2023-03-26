@@ -109,9 +109,6 @@ export function AllFees() {
                 All Fees
               </Title>
             </div>
-            <Button mr={'1%'} onClick={() => navigate('new')}>
-              Collect Fee
-            </Button>
           </Flex>
         </Grid.Col>
 
@@ -173,25 +170,7 @@ export function AllFees() {
                         justifyContent: 'center',
                       }}
                     >
-                      <ActionIcon
-                        color="dark"
-                        onClick={e => {
-                          console.log('click');
-
-                          e.preventDefault();
-                          e.stopPropagation();
-
-                          navigate(`edit/${data.peek().studentId}`, {
-                            state: { data: data.peek() },
-                          });
-                        }}
-                      >
-                        <IconEdit size={16} />
-                      </ActionIcon>
-
-                      <ActionIcon color="red">
-                        <IconTrash size={16} />
-                      </ActionIcon>
+                     <Button size={'xs'} color="green">Collect Fee</Button>
                     </div>
                   );
                 },
