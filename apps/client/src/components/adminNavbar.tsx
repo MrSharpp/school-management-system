@@ -44,7 +44,11 @@ const mockdata = [
       { label: 'Add New', link: '/classes/new' },
     ],
   },
-  { label: 'Analytics', icon: IconPresentationAnalytics },
+  { label: 'Fees', icon: IconPresentationAnalytics,
+  links: [
+    { label: 'All Fees', link: '/fees' },
+    { label: 'Collect Fee', link: '/fees/add' },
+  ], },
   { label: 'Contracts', icon: IconFileAnalytics },
   { label: 'Settings', icon: IconAdjustments },
   {

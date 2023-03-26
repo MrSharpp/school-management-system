@@ -1,5 +1,6 @@
 import AddClass from '@pages/classes/AddClass';
 import EditClass from '@pages/classes/EditClass';
+import { AllFees } from '@pages/fees/AllFees';
 import AddStudent from '@pages/Students/AddStudent';
 import { AllStudents } from '@pages/Students/AllStudents';
 import EditStudent from '@pages/Students/EditStudent';
@@ -41,6 +42,11 @@ function App() {
               <Route index element={<AllClasses />} />
               <Route path="new" element={<AddClass />} />
               <Route path="edit/:classId" element={<EditClass />} />
+            </Route>
+
+            <Route path="fees" element={<Outlet />}>
+              <Route index element={<AllFees />} />
+              <Route path="new" element={<AddClass />} />
             </Route>
           </Route>
 
